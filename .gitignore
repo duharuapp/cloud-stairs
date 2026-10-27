@@ -148,3 +148,6 @@ expo-env.d.ts
 *.key
 *.mobileprovision
 .DS_Store
+
+# Firebase config (seulki uploads it; kept out of git)
+GoogleService-Info.plist
