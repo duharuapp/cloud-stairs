@@ -105,6 +105,19 @@
     "runtimeVersion": {
       "policy": "appVersion"
     },
-    "owner": "duharu"
+    "owner": "duharu",
+    "updates": {
+      "checkAutomatically": "ON_LOAD",
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/c2b940e0-d6aa-4e34-a0c3-d3a7ff5c2e8a",
+      "requestHeaders": {
+        "expo-channel-name": "production"
+      }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c2b940e0-d6aa-4e34-a0c3-d3a7ff5c2e8a"
+      }
+    }
   }
 }
