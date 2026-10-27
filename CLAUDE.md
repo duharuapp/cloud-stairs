@@ -1,4 +1,4 @@
-# 꼭대기 가자 / Hop to the Peak / てっぺん行こう 작업 규칙
+# 꼭대기 가자 / Hoppeak / ぴょこっと山頂 작업 규칙
 
 - 게임은 `game/index.html` 한 파일(three.js 3D). 앱은 Expo + WebView로 이 파일을 그대로 띄운다.
 - `game/index.html`을 고치면 `npm run game`으로 `src/game/html.ts`를 다시 만들고 둘 다 커밋한다 (three.js와 Jua 글꼴이 안에 들어가서 인터넷 없이 돈다).
