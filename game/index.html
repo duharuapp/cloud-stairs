@@ -561,6 +561,8 @@ const NATIVE = window.ReactNativeWebView ? (() => {
   };
 })() : null;
 if (NATIVE) document.documentElement.classList.add('native');
+// anonymous play stats (Firebase Analytics in the app); nothing in the browser
+function track(name, p){ if (NATIVE) NATIVE.send('track', { name, p: p || {} }); }
 
 // ---------- storage ----------
 const saved = (NATIVE && window.__save) || {};
@@ -675,6 +677,7 @@ let tutDone = store.get('tut', false);
 function newRun(save){
   const at = playAt || prog; def = stageDef(at.m, at.s);
   if (save && save.lv !== def.lv) save = null;
+  track('level_start', { lv: def.lv, resume: save ? 1 : 0 });
   best = store.get('best-' + def.lv, 0);
   document.getElementById('hudLv').textContent = 'Lv ' + def.lv;
   build(def); buildWorld();
@@ -755,6 +758,7 @@ function setHearts(hit){
 }
 function gameOver(){
   state = 'dying';
+  track('game_over', { lv: def.lv, h: Math.floor(me.y) });
   beep(392, 196, .5, 'triangle', .1);
   setTimeout(() => {
     state = 'over';
@@ -789,6 +793,7 @@ function win(){
   const allC = plats.filter(q => q.coin), got = allC.filter(q => q.coinTaken).length, par = parTime(def);
   const ok = [falls === 0, playTime <= par, got === allC.length];
   const bits = ok.reduce((b, v, i) => b | (v ? 1 << i : 0), 0);
+  track('level_clear', { lv: def.lv, falls, sec: Math.round(playTime), stars: ok.filter(Boolean).length, replay: replay ? 1 : 0 });
   store.set('stars-' + def.lv, starsOf(def.lv) | bits);
   clears = store.get('clears', 0) + 1; store.set('clears', clears);
   // move the mountain progress on; the home screen plays the climb
@@ -798,6 +803,7 @@ function win(){
     store.set('prog', prog);
     if (!pendingClimb) pendingClimb = from;   // several clears in a row: home climbs them all at once
     summitDone = from.s === STAGES - 1;
+    if (summitDone) track('mountain_clear', { m: from.m + 1 });
   } else summitDone = false;
   playAt = null;
   if (acct) backupNow();   // signed in: every clear is backed up
@@ -1503,6 +1509,7 @@ $('attClose').onclick = () => { $('att').hidden = true; updateHomeUI(); };
 $('attClaim').onclick = () => {
   if (!attCanClaim()) return;
   if (att.n >= 7) att.n = 0;
+  track('checkin', { day: att.n + 1 });
   coins += ATT_REWARDS[att.n]; setCoins();
   att = { n: att.n + 1, last: today() }; store.set('att', att); store.set('coins', coins);
   [659, 784, 1046].forEach((f, i) => setTimeout(() => beep(f, f, .15, 'triangle', .08), i * 90));
@@ -1527,6 +1534,7 @@ function miniStart(){ miniRun = { t0: performance.now(), x: 0, stopped: false };
 $('miniBtn').onclick = () => { $('mini').hidden = false; renderMini(); miniStart(); };
 $('miniClose').onclick = () => { $('mini').hidden = true; updateHomeUI(); };
 $('miniGo').onclick = () => {
+  track('minigame_play', { left: miniLeft() });
   if (miniLeft() <= 0){
     // out of tries: a rewarded ad gives one more
     showAd(() => { mini.extra++; store.set('mini', mini); renderMini(); miniStart(); });
@@ -1549,11 +1557,12 @@ $('play').onclick = () => { playAt = null; startLevel(); };
 $('snd').onclick = () => { soundOn = !soundOn; store.set('sound', soundOn); renderToggles(); beep(660, 880, .08); };
 $('pause').onclick = goHome;
 $('overHome').onclick = goHome;
-$('reviveAd').onclick = () => { $('over').hidden = true; showAd(() => respawn(deathSpot)); };
+$('reviveAd').onclick = () => { track('revive', { lv: def.lv, by: 'ad' }); $('over').hidden = true; showAd(() => respawn(deathSpot)); };
 // not enough coins: open the shop over the game-over screen
 $('reviveCoin').onclick = () => {
   if (coins < REVIVE_PRICE){ openShop(); return; }
   coins -= REVIVE_PRICE; store.set('coins', coins); setCoins();
+  track('revive', { lv: def.lv, by: 'coin' });
   beep(784, 523, .15, 'triangle', .08);
   $('over').hidden = true; respawn(deathSpot);
 };

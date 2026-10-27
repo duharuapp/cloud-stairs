@@ -10,6 +10,7 @@ import type { ComponentType, Ref } from 'react';
 import GAME_HTML from './src/game/html';
 import { t } from './src/i18n';
 import { AdsProvider, BottomBanner, useAds, type AdKind } from './src/services/ads';
+import { sendEvent } from './src/services/analytics';
 import { loadSave, writeSave, type Save } from './src/services/save';
 import { PRODUCTS, useStore, type Sku } from './src/services/store';
 
@@ -24,6 +25,7 @@ type Msg =
   | { type: 'save'; k: string; v: string }
   | { type: 'banner'; on: boolean }
   | { type: 'buzz'; ms: number }
+  | { type: 'track'; name: string; p: Record<string, number | string> }
   | { id: number; type: 'ad'; kind: AdKind }
   | { id: number; type: 'buy'; sku: Sku }
   | { id: number; type: 'restore' };
@@ -86,6 +88,9 @@ function Game({ initial }: { initial: Save }) {
         break;
       case 'buzz':
         Haptics.impactAsync(m.ms >= 40 ? Haptics.ImpactFeedbackStyle.Heavy : m.ms >= 15 ? Haptics.ImpactFeedbackStyle.Medium : Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+        break;
+      case 'track':
+        sendEvent(m.name, m.p);
         break;
       case 'ad':
         reply(m.id, await ads.show(m.kind));
