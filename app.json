@@ -11,7 +11,7 @@
       "supportsTablet": false,
       "bundleIdentifier": "com.duharuapp.hoppeak",
       "appleTeamId": "55BFB3D9A5",
-      "buildNumber": "1",
+      "buildNumber": "2",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "CFBundleAllowMixedLocalizations": true
