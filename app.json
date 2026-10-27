@@ -80,6 +80,7 @@
         }
       ],
       "./modules/cloud-save/app.plugin.js",
+      "./plugins/no-precompiled-modules.js",
       "expo-iap",
       [
         "expo-tracking-transparency",
