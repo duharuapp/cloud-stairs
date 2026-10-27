@@ -274,6 +274,12 @@ body.at-home .hud,body.at-home .pad,body.at-home .prog,body.at-home #floats{disp
 .round.play .lv{font-size:22px;padding:3px 16px;bottom:-16px;border:2.5px solid var(--ink)}
 .round.play::after{content:"";position:absolute;inset:-8px;border-radius:50%;border:4px solid rgba(255,255,255,.7);animation:playRing 1.8s ease-out infinite;pointer-events:none}
 @keyframes playRing{0%{transform:scale(1);opacity:.9}100%{transform:scale(1.35);opacity:0}}
+
+/* popup close: pinned to the card's top-right corner (game style), tap outside also closes */
+.pop{position:relative}
+.pop > .closeX{position:absolute;top:-18px;right:-18px;left:auto;width:48px;height:48px;background:#ff5a4e;border:3px solid #fff;box-shadow:0 0 0 2.5px var(--ink),0 4px 0 2.5px rgba(0,0,0,.25);z-index:2}
+.pop > .closeX svg{width:26px;height:26px}
+.pop > .closeX:active{transform:scale(.9)}
 </style>
 </head>
 <body>
@@ -1483,6 +1489,12 @@ function renderAtt(){
   $('attClaim').disabled = !attCanClaim();
 }
 $('attBtn').onclick = () => { renderAtt(); $('att').hidden = false; };
+// popup close buttons sit on each card's corner; tapping the dim background closes too
+document.querySelectorAll('.layer > .closeX').forEach(x => {
+  const L = x.parentElement, pop = L.querySelector(':scope > .pop');
+  if (pop) pop.appendChild(x);
+  L.addEventListener('click', e => { if (e.target === L) x.click(); });
+});
 $('attClose').onclick = () => { $('att').hidden = true; updateHomeUI(); };
 $('attClaim').onclick = () => {
   if (!attCanClaim()) return;
