@@ -280,6 +280,9 @@ body.at-home .hud,body.at-home .pad,body.at-home .prog,body.at-home #floats{disp
 .pop > .closeX{position:absolute;top:-18px;right:-18px;left:auto;width:48px;height:48px;background:#ff5a4e;border:3px solid #fff;box-shadow:0 0 0 2.5px var(--ink),0 4px 0 2.5px rgba(0,0,0,.25);z-index:2}
 .pop > .closeX svg{width:26px;height:26px}
 .pop > .closeX:active{transform:scale(.9)}
+
+/* game over: my coin balance, top right like home */
+.overTop{position:absolute;top:calc(env(safe-area-inset-top,0px) + 14px);left:0;padding-right:16px}
 </style>
 </head>
 <body>
@@ -348,6 +351,7 @@ body.at-home .hud,body.at-home .pad,body.at-home .prog,body.at-home #floats{disp
 </div>
 
 <div class="layer" id="over" hidden>
+  <div class="homeTop overTop"><span class="grow"></span><div class="pill coinPill" aria-label="coins"><i data-ic="coin"></i><span id="oCoins">0</span><button class="plus" id="oCoinPlus" aria-label="get coins"><i data-ic="plus"></i></button></div></div>
   <div class="pop">
     <i data-ic="heart" class="off bigHeart"></i>
     <div class="big"><span id="oH">0</span><small style="font-size:28px">m</small></div>
@@ -765,7 +769,7 @@ function gameOver(){
     store.set('save', null);
   }, 900);
 }
-function setReviveCoin(){ document.getElementById('reviveCoin').classList.toggle('short', coins < REVIVE_PRICE); }
+function setReviveCoin(){ document.getElementById('reviveCoin').classList.toggle('short', coins < REVIVE_PRICE); document.getElementById('oCoins').textContent = coins; }
 function respawn(cp){
   const p = platAt(cp.x, cp.y, gt, false) || byRow[cp.y][0];
   Object.assign(me, { mode: 'idle', x: cp.x, y: cp.y, plat: p, vy: 0, squash: 1 });
@@ -1639,6 +1643,7 @@ function closeShop(){
   if (state === 'over') setReviveCoin(); else updateHomeUI();
 }
 $('shopBtn').onclick = openShop;
+$('oCoinPlus').onclick = openShop;
 $('coinPlus').onclick = openShop;
 $('shopClose').onclick = closeShop;
 $('shopAd').onclick = () => { if (adCoinLeft() <= 0) return; showAd(() => { adc.n++; store.set('adcoin', adc); addCoins(AD_COIN); fanfare(); renderShop(); }); };
@@ -1870,7 +1875,7 @@ dressAll(skin); setSoundIcon(); renderSet(); goHome();
 requestAnimationFrame(frame);
 
 // test hook for automated checks
-window.__cs = { get me(){ return me; }, get prog(){ return prog; }, set prog(v){ prog = v; store.set('prog', v); }, goHome, get climb(){ return climb; }, setCheck(c){ check = c; }, get gt(){ return gt; }, solid, slideX, blinkU, get cones(){ return cones; }, platAt, byRow: () => byRow, press, win, get falls(){ return falls; }, get state(){ return state; }, set state(v){ state = v; } };
+window.__cs = { get me(){ return me; }, get prog(){ return prog; }, set prog(v){ prog = v; store.set('prog', v); }, goHome, get climb(){ return climb; }, setCheck(c){ check = c; }, get gt(){ return gt; }, solid, slideX, blinkU, get cones(){ return cones; }, platAt, byRow: () => byRow, press, win, gameOver, get falls(){ return falls; }, get state(){ return state; }, set state(v){ state = v; } };
 })();
 </script>
 </body>
