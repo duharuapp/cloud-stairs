@@ -241,6 +241,39 @@ body.at-home .hud,body.at-home .pad,body.at-home .prog,body.at-home #floats{disp
 #summit{background:rgba(20,26,50,.35)}
 #home.dressing .side,#home.dressing .homeBottom{display:none}
 @media (prefers-reduced-motion: reduce){.cell.today{animation:none}.round:active{transform:none}.hint{animation:none}}
+
+/* ---------- home v2 (10/27): game-style top bar, grounded side icons, stone trail, bigger play ---------- */
+.homeTop{gap:9px;padding-left:12px;box-sizing:border-box}
+.homeTop .pill{flex-shrink:0}
+.homeTop .pill{position:relative;height:38px;box-sizing:border-box;background:rgba(24,32,58,.55);border:2.5px solid rgba(255,255,255,.85);box-shadow:0 3px 0 rgba(0,0,0,.18);padding:0 10px 0 31px;font-size:20px;color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.25);min-width:58px;justify-content:flex-end}
+.homeTop .pill svg,.homeTop .pill.mtn svg{position:absolute;left:-12px;top:50%;width:40px;height:40px;transform:translateY(-50%);filter:drop-shadow(0 2px 0 rgba(0,0,0,.2))}
+.homeTop .pill.mtn{padding:0 14px 0 32px;font-size:21px}
+.homeTop .coinPill{padding-right:4px}
+.homeTop .coinPill .plus{position:static;width:30px;height:30px;margin-left:6px}
+.homeTop .coinPill .plus svg{position:static;transform:none;width:30px;height:30px}
+.homeTop .round.tiny{width:46px;height:46px;background:rgba(24,32,58,.55);border:2.5px solid rgba(255,255,255,.85);box-sizing:border-box}
+.side{top:calc(env(safe-area-inset-top,0px) + 92px);gap:14px;left:12px}
+.side .round.small{animation:sideBob 3.2s ease-in-out infinite}
+.side .round.small:nth-child(2){animation-delay:-.8s}
+.side .round.small:nth-child(3){animation-delay:-1.6s}
+.side .round.small:nth-child(4){animation-delay:-2.4s}
+.side .round.small::before{content:"";position:absolute;left:12px;right:12px;bottom:-6px;height:10px;border-radius:50%;background:radial-gradient(rgba(0,0,0,.28),rgba(0,0,0,0) 70%);z-index:-1}
+@keyframes sideBob{0%,100%{translate:0 0}50%{translate:0 -4px}}
+.homeBottom{gap:22px}
+.trail{position:relative;display:flex;align-items:flex-end;gap:5px;padding:10px 14px 8px;background:rgba(24,32,58,.42);border:2px solid rgba(255,255,255,.55);border-radius:22px;box-shadow:0 3px 0 rgba(0,0,0,.15)}
+.trail button{position:relative;width:24px;height:14px;padding:0;border:2px solid rgba(43,49,64,.55);border-radius:6px;background:rgba(255,255,255,.28);cursor:default;transition:transform .2s}
+.trail button.done{background:linear-gradient(#d9935a,#b06a36);border-color:#2b3140;cursor:pointer}
+.trail button.done::after{content:"";position:absolute;left:50%;top:-11px;width:2px;height:10px;background:#2b3140;border-radius:1px}
+.trail button.done::before{content:"";position:absolute;left:calc(50% + 2px);top:-11px;border-left:8px solid #ff5a4e;border-top:4px solid transparent;border-bottom:4px solid transparent}
+.trail button.done.full::before{border-left-color:#ffc93c}
+.trail button.now{background:#fff;border-color:#2b3140;box-shadow:0 0 0 4px rgba(255,255,255,.35)}
+.trail button.now svg{position:absolute;left:50%;bottom:8px;width:30px;height:30px;transform:translateX(-50%);animation:sideBob 1.4s ease-in-out infinite}
+.trail .peak{width:34px;height:34px;margin-left:2px;align-self:flex-end;filter:drop-shadow(0 2px 0 rgba(0,0,0,.2))}
+.round.play{width:124px;height:124px;box-shadow:0 8px 0 #d9952a,0 0 0 8px rgba(255,255,255,.28)}
+.round.play svg{width:60px;height:60px}
+.round.play .lv{font-size:22px;padding:3px 16px;bottom:-16px;border:2.5px solid var(--ink)}
+.round.play::after{content:"";position:absolute;inset:-8px;border-radius:50%;border:4px solid rgba(255,255,255,.7);animation:playRing 1.8s ease-out infinite;pointer-events:none}
+@keyframes playRing{0%{transform:scale(1);opacity:.9}100%{transform:scale(1.35);opacity:0}}
 </style>
 </head>
 <body>
@@ -282,7 +315,7 @@ body.at-home .hud,body.at-home .pad,body.at-home .prog,body.at-home #floats{disp
     <button class="round small closetBtn" id="closetBtn" aria-label="wardrobe"><i data-ic="shirt"></i></button>
   </div>
   <div class="homeBottom">
-    <div class="stageDots" id="stageDots"></div>
+    <div class="stageDots trail" id="stageDots"></div>
     <button class="round play" id="play" aria-label="play"><i data-ic="play"></i><span class="lv" id="lvTag">Lv 1</span></button>
   </div>
 </div>
@@ -469,6 +502,7 @@ const PILES = [
 const pileSvg = n => '<svg viewBox="0 0 32 28">' + PILES[n].map(c => coinAt(c[0], c[1], c[2])).join('') + '</svg>';
 const icon = (name, attrs) => '<svg viewBox="0 0 24 24"' + (attrs || '') + '>' + ICONS[name] + '</svg>';
 Object.assign(ICONS, {
+  sprout: '<path d="M12 9.5c4.6 0 7.4 3.4 7.4 6.6 0 2.4-2.6 3.4-7.4 3.4s-7.4-1-7.4-3.4c0-3.2 2.8-6.6 7.4-6.6z" fill="#fff" ' + O + '/><circle cx="9.6" cy="14.6" r="1" fill="' + INK + '"/><circle cx="14.4" cy="14.6" r="1" fill="' + INK + '"/><ellipse cx="7.6" cy="16.3" rx="1.2" ry=".7" fill="#ffb3c1"/><ellipse cx="16.4" cy="16.3" rx="1.2" ry=".7" fill="#ffb3c1"/><path d="M12 9.6V7" stroke="' + INK + '" stroke-width="1.4" stroke-linecap="round"/><path d="M12 7.2c-.6-2.4-3.6-2.9-4.6-1.4 1.4 1.6 3.2 1.9 4.6 1.4z" fill="#6fd27f" ' + O + '/><path d="M12 7.2c.8-2.2 3.8-2.4 4.6-.8-1.5 1.4-3.3 1.6-4.6.8z" fill="#58c26b" ' + O + '/>',
   star: '<path d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3-4.6-4.4 6.3-.9z" fill="#ffc93c" ' + O + '/><path d="M9.4 9.6l1.2-2.4" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>',
   starOff: '<path d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3-4.6-4.4 6.3-.9z" fill="#dfe3ea" ' + O + '/>',
   music: '<path d="M9 17.5V6.2l10-2.2v11.3" fill="none" stroke="' + INK + '" stroke-width="4.4" stroke-linejoin="round"/><path d="M9 17.5V6.2l10-2.2v11.3" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/><ellipse cx="6.6" cy="17.8" rx="3" ry="2.4" fill="#fff" ' + O + '/><ellipse cx="16.6" cy="15.6" rx="3" ry="2.4" fill="#fff" ' + O + '/>',
@@ -1355,7 +1389,7 @@ function drawHome(dt){
   const side = new THREE.Vector3(out.z, 0, -out.x);
   // wardrobe open: glide in close to the character so the outfit shows above the sheet
   dressK += ((closetOpen ? 1 : 0) - dressK) * Math.min(1, dt * 6);
-  const far = { d: 34, sd: 11, up: 10, lx: -3, ly: 7.5 }, near = { d: 11, sd: 2, up: 4, lx: 0, ly: -.6 };
+  const far = { d: 29, sd: 5, up: 7, lx: -1, ly: 2.2 }, near = { d: 11, sd: 2, up: 4, lx: 0, ly: -.6 };
   const C = k => far[k] + (near[k] - far[k]) * dressK;
   homeCam.position.set(p.x + out.x * C('d') + side.x * C('sd'), p.y + C('up'), p.z + out.z * C('d') + side.z * C('sd'));
   homeCam.lookAt(p.x + side.x * C('lx'), p.y + C('ly'), p.z + side.z * C('lx'));
@@ -1422,7 +1456,8 @@ function updateHomeUI(){
   const D = stageDef(prog.m, prog.s);
   $('mtnNo').textContent = prog.m + 1; $('lvTag').textContent = 'Lv ' + D.lv; $('hCoins').textContent = coins;
   // cleared stones can be replayed for stars
-  $('stageDots').innerHTML = Array.from({ length: STAGES }, (_, i) => '<button data-s="' + i + '" class="' + (i < prog.s ? 'done' + (starsOf(prog.m * STAGES + i + 1) === 7 ? ' full' : '') : i === prog.s ? 'now' : '') + '" aria-label="Lv ' + (prog.m * STAGES + i + 1) + '"></button>').join('');
+  // the mountain's 10 stones as a little rising trail: cleared ones carry a flag (gold for 3 stars), the sprout stands on today's
+  $('stageDots').innerHTML = Array.from({ length: STAGES }, (_, i) => '<button data-s="' + i + '" style="margin-bottom:' + (i * 2.4).toFixed(1) + 'px" class="' + (i < prog.s ? 'done' + (starsOf(prog.m * STAGES + i + 1) === 7 ? ' full' : '') : i === prog.s ? 'now' : '') + '" aria-label="Lv ' + (prog.m * STAGES + i + 1) + '">' + (i === prog.s ? icon('sprout') : '') + '</button>').join('') + icon('mountain', ' class="peak"');
   $('starNo').textContent = starCount(prog.m) + '/' + STAGES * 3;
   $('attDot').hidden = !attCanClaim();
   const left = miniLeft(); $('miniDot').hidden = left <= 0; $('miniDot').textContent = left;
