@@ -2,7 +2,7 @@
   "expo": {
     "name": "꼭대기 가자",
     "slug": "cloud-stairs",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "backgroundColor": "#8fd3ff",
@@ -11,7 +11,7 @@
       "supportsTablet": false,
       "bundleIdentifier": "com.duharuapp.hoppeak",
       "appleTeamId": "55BFB3D9A5",
-      "buildNumber": "3",
+      "buildNumber": "4",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "CFBundleAllowMixedLocalizations": true
@@ -107,6 +107,7 @@
           }
         }
       ],
+      "@react-native-firebase/crashlytics",
       [
         "expo-build-properties",
         {
