@@ -283,6 +283,77 @@ body.at-home .hud,body.at-home .pad,body.at-home .prog,body.at-home #floats{disp
 
 /* game over: my coin balance, top right like home */
 .overTop{position:absolute;top:calc(env(safe-area-inset-top,0px) + 14px);left:0;padding-right:16px}
+
+/* ---------- 10/28: items (shield, cloud shoes), daily missions, gift box, today's mountain ---------- */
+.items{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 34px + var(--ban));transform:translateX(-50%);display:flex;gap:14px;font-family:var(--font)}
+body.at-home .items{display:none}
+.item{position:relative;width:62px;height:62px;border-radius:50%;border:3px solid #fff;background:rgba(24,32,58,.55);box-shadow:0 0 0 2.5px var(--ink),0 4px 0 2.5px rgba(0,0,0,.2);padding:0;display:grid;place-items:center;cursor:pointer;--p:0;font-family:var(--font)}
+.item svg.ic{width:42px;height:42px;filter:drop-shadow(0 2px 0 rgba(0,0,0,.2))}
+.item .n{position:absolute;top:-7px;right:-7px;min-width:25px;height:25px;border-radius:13px;background:var(--red);border:2px solid #fff;box-sizing:border-box;color:#fff;font-size:15px;line-height:21px;text-align:center;padding:0 4px}
+.item .n.ad{background:none;border:0;padding:0;width:30px;height:30px;top:-9px;right:-9px}
+.item .n.ad svg{width:30px;height:30px}
+.item.on{background:conic-gradient(rgba(255,201,60,.95) calc(var(--p) * 1turn),rgba(24,32,58,.55) 0);animation:itemOn .8s ease-in-out infinite alternate}
+.item.on .n{display:none}
+.item .t{position:absolute;bottom:-13px;left:50%;transform:translateX(-50%);background:#fff;color:var(--ink);border-radius:999px;padding:0 8px;font-size:15px;line-height:20px;border:2px solid var(--ink);display:none}
+.item.on .t{display:block}
+.item:disabled{filter:grayscale(1);opacity:.5}
+.item:active{transform:scale(.92)}
+@keyframes itemOn{to{box-shadow:0 0 0 2.5px var(--ink),0 4px 0 2.5px rgba(0,0,0,.2),0 0 18px 5px rgba(255,201,60,.85)}}
+@media (max-width:350px){.item{width:52px;height:52px}.item svg.ic{width:34px;height:34px}.items{gap:10px}}
+.side.right{left:auto;right:12px}
+.pop.mis{padding:22px 14px 18px;gap:10px;width:min(350px,90vw);box-sizing:border-box}
+.misList{width:100%;display:flex;flex-direction:column;gap:8px}
+.mrow{display:flex;align-items:center;gap:7px;background:#f1f3f8;border-radius:18px;padding:8px 9px;min-height:58px;box-sizing:border-box}
+.mrow > svg{width:34px;height:34px;flex-shrink:0}
+.mbar{flex:1;position:relative;height:24px;border-radius:12px;background:#dfe3ea;overflow:hidden;min-width:56px}
+.mbar i{position:absolute;left:0;top:0;bottom:0;background:#6fd27f;border-radius:12px}
+.mbar span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--ink)}
+.rew{display:flex;align-items:center;gap:3px}
+.rew .chip{font-size:16px;padding:2px 8px 2px 4px;background:#fff}
+.rew .chip svg{width:22px;height:22px}
+.mbtn{position:relative;width:40px;height:40px;border-radius:50%;border:0;padding:0;display:grid;place-items:center;cursor:pointer;background:#47c16a;box-shadow:0 3px 0 #2f9a4f;flex-shrink:0}
+.mbtn svg{width:26px;height:26px}
+.mbtn:active{transform:translateY(2px);box-shadow:0 1px 0 #2f9a4f}
+.mbtn.x2{background:var(--blue);box-shadow:0 3px 0 #2f86cc}
+.mbtn.x2 b{position:absolute;bottom:-9px;left:50%;transform:translateX(-50%);font-weight:normal;font-family:var(--font);font-size:14px;color:#fff;-webkit-text-stroke:3px var(--ink);paint-order:stroke fill}
+.mrow.ready{background:#fff4cf;box-shadow:inset 0 0 0 3px var(--sun)}
+.mrow.done{opacity:.5}
+.mtick{width:34px;height:34px;border-radius:50%;background:#47c16a;display:grid;place-items:center;flex-shrink:0}
+.mtick svg{width:24px;height:24px}
+.chestBtn{position:relative;width:100%;display:flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:18px;background:#f1f3f8;padding:8px 12px;cursor:pointer;font-family:var(--font);color:var(--ink)}
+.chestBtn > svg{width:50px;height:50px}
+.chestBtn .pips{display:flex;gap:4px}
+.chestBtn .pips i{width:12px;height:12px;border-radius:50%;background:#d8dbe3}
+.chestBtn .pips i.on{background:#47c16a}
+.chestBtn.ready{background:#fff4cf;box-shadow:inset 0 0 0 3px var(--sun);animation:glow 1s ease-in-out infinite alternate}
+.chestBtn.ready > svg{animation:wiggle 1s ease-in-out infinite}
+.chestBtn.done{opacity:.5;pointer-events:none}
+@keyframes wiggle{0%,60%,100%{transform:rotate(0)}70%{transform:rotate(-8deg)}80%{transform:rotate(8deg)}90%{transform:rotate(-4deg)}}
+.pop.giftPop{padding:22px 34px 20px;gap:10px;min-width:220px}
+.giftBox svg{width:120px;height:120px;display:block;filter:drop-shadow(0 4px 0 rgba(0,0,0,.12))}
+.giftBox.shake svg{animation:giftShake .7s ease-in-out}
+.giftBox.open svg{animation:giftPop .35s ease-out}
+@keyframes giftShake{20%{transform:rotate(-10deg)}40%{transform:rotate(10deg)}60%{transform:rotate(-8deg)}80%{transform:rotate(6deg) scale(1.06)}}
+@keyframes giftPop{from{transform:scale(1.25)}}
+.giftRes{min-height:44px;display:flex;align-items:center;gap:6px}
+.giftRes .chip{font-size:28px;padding:5px 14px 5px 8px}
+.giftRes .chip svg{width:34px;height:34px}
+.pop.dayPop{padding:22px 30px 26px;gap:12px}
+.dayIc{width:96px;height:96px}
+.dayRew{display:flex;gap:6px;align-items:center;position:relative}
+.dayRew.done .chip{opacity:.45}
+.dayRew .mtick{position:absolute;right:-16px;top:-14px}
+.wItems{display:flex;gap:6px}
+#giftGo .icAd,#giftGo.ad .icOk{display:none}
+#giftGo.ad .icAd{display:block}
+.sitems{display:grid;grid-template-columns:repeat(2,132px);gap:10px}
+.sitem{position:relative;border:0;border-radius:18px;background:#f1f3f8;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 6px;font-family:var(--font);color:var(--ink);cursor:pointer}
+.sitem > svg{width:40px;height:40px}
+.sitem .have{position:absolute;top:2px;left:44px;min-width:20px;height:20px;border-radius:10px;background:#fff;border:2px solid var(--ink);box-sizing:border-box;font-size:12px;line-height:16px;text-align:center;color:var(--ink);padding:0 3px}
+.sitem .price{display:flex;align-items:center;gap:3px;background:#fff;border-radius:999px;padding:2px 12px 2px 5px;font-size:18px;box-shadow:0 3px 0 rgba(0,0,0,.12)}
+.sitem .price svg{width:22px;height:22px}
+.sitem.short .price{color:var(--red)}
+.sitem:active{transform:scale(.96)}
 </style>
 </head>
 <body>
@@ -307,6 +378,11 @@ body.at-home .hud,body.at-home .pad,body.at-home .prog,body.at-home #floats{disp
   <button class="round" id="L" aria-label="left"><svg viewBox="0 0 24 24"><path d="M15.5 4.5L8 12l7.5 7.5" fill="none" stroke="#2b3140" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   <button class="round" id="R" aria-label="right"><svg viewBox="0 0 24 24"><path d="M8.5 4.5L16 12l-7.5 7.5" fill="none" stroke="#2b3140" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
 </div>
+<!-- items: tap to use (shield 45 s, cloud shoes 30 s); none left = a rewarded ad gives one -->
+<div class="items" id="items">
+  <button class="item" data-k="shield" aria-label="shield"><i data-ic="shield" class="ic"></i><span class="n"></span><span class="t"></span></button>
+  <button class="item" data-k="boots" aria-label="cloud shoes"><i data-ic="boots" class="ic"></i><span class="n"></span><span class="t"></span></button>
+</div>
 <svg class="hint" id="hint" viewBox="0 0 24 24" hidden><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V10l.3-.1a1.5 1.5 0 0 1 2.7.9v.2l.3-.1a1.5 1.5 0 0 1 2.2 1.3l.1.1a1.5 1.5 0 0 1 2.4 1.2V17a5 5 0 0 1-5 5h-1.5a5 5 0 0 1-4-2l-3.3-4.4a1.5 1.5 0 0 1 2.3-1.9z" fill="#fff" stroke="#2b3140" stroke-width="1.3" transform="rotate(180 12 12)"/></svg>
 
 <div class="layer home" id="home">
@@ -319,7 +395,12 @@ body.at-home .hud,body.at-home .pad,body.at-home .prog,body.at-home #floats{disp
   </div>
   <div class="side">
     <button class="round small" id="attBtn" aria-label="daily check-in"><i data-ic="calendar"></i><span class="dot" id="attDot" hidden></span></button>
+    <button class="round small" id="misBtn" aria-label="daily missions"><i data-ic="mission"></i><span class="dot" id="misDot" hidden></span></button>
+    <button class="round small" id="giftBtn" aria-label="gift box"><i data-ic="gift"></i><span class="dot" id="giftDot" hidden></span></button>
     <button class="round small" id="miniBtn" aria-label="bell minigame"><i data-ic="bell"></i><span class="dot" id="miniDot" hidden></span></button>
+  </div>
+  <div class="side right">
+    <button class="round small" id="dailyBtn" aria-label="today's mountain"><i data-ic="sunpeak"></i><span class="dot" id="dayDot" hidden></span></button>
     <button class="round small shopBtn" id="shopBtn" aria-label="coin shop"><i data-ic="coinbag"></i></button>
     <button class="round small closetBtn" id="closetBtn" aria-label="wardrobe"><i data-ic="shirt"></i></button>
   </div>
@@ -376,6 +457,7 @@ body.at-home .hud,body.at-home .pad,body.at-home .prog,body.at-home #floats{disp
       <div class="goal" id="g2"><i data-ic="coin"></i><span id="wGot">0</span></div>
     </div>
     <div class="clearCoins"><i data-ic="coin"></i><span id="wBonus">+50</span></div>
+    <div class="wItems" id="wItems"></div>
   </div>
   <div class="btns">
     <button class="round small" id="winHome" aria-label="home"><i data-ic="house"></i></button>
@@ -389,6 +471,7 @@ body.at-home .hud,body.at-home .pad,body.at-home .prog,body.at-home #floats{disp
     <div class="bal"><i data-ic="coin"></i><span id="sCoins">0</span></div>
     <button class="shopAd" id="shopAd" aria-label="watch an ad for 30 coins"><i data-ic="ad"></i><i data-ic="coin"></i><span>+30</span><span class="dot" id="adLeft">5</span></button>
     <button class="noadsBtn" id="noadsBtn" aria-label="remove ads"><i data-ic="noads"></i><span class="price" id="noadsPrice">₩3,900</span></button>
+    <div class="sitems" id="sitems"></div>
     <div class="packs" id="packs"></div>
   </div>
 </div>
@@ -450,6 +533,34 @@ body.at-home .hud,body.at-home .pad,body.at-home .prog,body.at-home #floats{disp
     <div class="clearCoins"><i data-ic="coin"></i><span id="sumBonus">+500</span></div>
   </div>
   <button class="round" id="sumGo" aria-label="next mountain"><i data-ic="play"></i></button>
+</div>
+
+<div class="layer" id="mis" hidden>
+  <button class="round tiny closeX" id="misClose" aria-label="close"><i data-ic="close"></i></button>
+  <div class="pop mis">
+    <div class="misList" id="misList"></div>
+    <button class="chestBtn" id="misChest" aria-label="open the chest"><i data-ic="chest"></i><span class="pips" id="misPips"></span><span class="rew" id="misChestRew"></span></button>
+  </div>
+</div>
+
+<div class="layer" id="gift" hidden>
+  <button class="round tiny closeX" id="giftClose" aria-label="close"><i data-ic="close"></i></button>
+  <div class="pop giftPop">
+    <div class="tries" id="giftPips"></div>
+    <div class="giftBox" id="giftBox"><i data-ic="gift"></i></div>
+    <div class="giftRes" id="giftRes"></div>
+  </div>
+  <button class="round" id="giftGo" aria-label="open"><i data-ic="check" class="icOk"></i><i data-ic="ad" class="icAd"></i></button>
+</div>
+
+<div class="layer" id="day" hidden>
+  <button class="round tiny closeX" id="dayClose" aria-label="close"><i data-ic="close"></i></button>
+  <div class="pop dayPop">
+    <i data-ic="sunpeak" class="dayIc"></i>
+    <div class="new" id="dayDate">1/1</div>
+    <div class="dayRew" id="dayRew"></div>
+  </div>
+  <button class="round" id="dayGo" aria-label="play today's mountain"><i data-ic="play"></i></button>
 </div>
 
 <div class="layer" id="busy" hidden><div class="spin"></div></div>
@@ -528,6 +639,16 @@ Object.assign(ICONS, {
   hat_cap: '<path d="M11 16.4c4.6-.6 9.2-.4 11 .6.4 1.4-3 2.4-6.4 2.2-2.4-.1-4.4-1-4.6-2.8z" fill="#2f9a4f" ' + O + '/><path d="M4.4 16.6c0-5.2 3.4-8.6 7.6-8.6s7.6 3.4 7.6 8.6c-2.6.8-12.6.8-15.2 0z" fill="#47c16a" ' + O + '/><circle cx="12" cy="7.8" r="1.3" fill="#fff" ' + O + '/><ellipse cx="9" cy="11.4" rx="1.4" ry=".9" fill="#fff" opacity=".6"/>',
   hat_crown: '<path d="M4.6 17.6L3.6 9.4l4.6 3.4L12 6.6l3.8 6.2 4.6-3.4-1 8.2c-.2 1.2-1.2 1.8-2.4 1.8H7c-1.2 0-2.2-.6-2.4-1.8z" fill="#ffc93c" ' + O + '/><circle cx="3.6" cy="8.8" r="1.6" fill="#ffc93c" ' + O + '/><circle cx="12" cy="5.4" r="1.6" fill="#ffc93c" ' + O + '/><circle cx="20.4" cy="8.8" r="1.6" fill="#ffc93c" ' + O + '/><circle cx="12" cy="14.6" r="1.6" fill="#ff5a4e" stroke="' + INK + '" stroke-width="1.1"/>'
 });
+Object.assign(ICONS, {
+  shield: '<path d="M12 2.6l7.8 2.9v5.9c0 4.9-3.4 8.6-7.8 10.2-4.4-1.6-7.8-5.3-7.8-10.2V5.5z" fill="#4fb3ff" ' + O + '/><path d="M12 5.3l5.1 1.9v4.2c0 3.4-2.2 6-5.1 7.3z" fill="#9bd8ff"/><path d="M7.4 7.6v3.4" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/>',
+  boots: '<path d="M5.4 21.4a3.3 3.3 0 0 1-.3-6.6 4.3 4.3 0 0 1 8.2-.7 3.1 3.1 0 0 1 5.5 1.3 2.9 2.9 0 0 1-.2 6z" fill="#fff" ' + O + '/><path d="M6.2 13.6V6.6c0-.8.6-1.4 1.4-1.4h3.3c.6 0 1.1.4 1.2 1l.5 2.7 4.6 1.4c1.3.4 2.1 1.5 2.1 2.8v.5z" fill="#ff5a4e" ' + O + '/><path d="M6.4 12.1h12.6" stroke="#fff" stroke-width="1.5"/><path d="M9.6 8.4l1.8-.4M10 10.2l1.9-.4" stroke="#fff" stroke-width="1.1" stroke-linecap="round"/>',
+  mission: '<rect x="4.5" y="4" width="15" height="17.5" rx="2.5" fill="#fff" ' + O + '/><rect x="8.5" y="2.4" width="7" height="3.8" rx="1.2" fill="#ffc93c" ' + O + '/>' + ln('M7.5 10.4l1.4 1.4 2.3-2.5', '#47c16a', 1.4) + ln('M7.5 15.6l1.4 1.4 2.3-2.5', '#47c16a', 1.4) + '<path d="M13.2 10.6h3.4M13.2 15.8h3.4" stroke="#c3c9d6" stroke-width="1.9" stroke-linecap="round"/>',
+  gift: '<rect x="3.6" y="10.4" width="16.8" height="10.6" rx="1.8" fill="#ff5a4e" ' + O + '/><rect x="2.6" y="7.2" width="18.8" height="4.4" rx="1.4" fill="#ff7d70" ' + O + '/><path d="M10.4 7.2h3.2v13.8h-3.2z" fill="#ffc93c" ' + O + '/><path d="M12 7.2C10.8 4 6.6 3.2 6.6 5.6c0 1.6 3 1.8 5.4 1.6zM12 7.2c1.2-3.2 5.4-4 5.4-1.6 0 1.6-3 1.8-5.4 1.6z" fill="#ffc93c" ' + O + '/><path d="M5.2 13v5" stroke="#ffb0a8" stroke-width="1.3" stroke-linecap="round"/>',
+  chest: '<path d="M3.4 11h17.2v8.4a1.6 1.6 0 0 1-1.6 1.6H5a1.6 1.6 0 0 1-1.6-1.6z" fill="#c8823f" ' + O + '/><path d="M3.4 11V8.8C3.4 6 7.2 4 12 4s8.6 2 8.6 4.8V11z" fill="#e6a05a" ' + O + '/><path d="M7.6 4.9V21M16.4 4.9V21" stroke="#ffc93c" stroke-width="1.9"/><rect x="10" y="9.4" width="4" height="4.6" rx="1" fill="#ffc93c" ' + O + '/><path d="M5.2 8.6c.6-1.4 2-2.3 3.6-2.8" stroke="#ffd9a8" stroke-width="1.1" fill="none" stroke-linecap="round"/>',
+  sunpeak: '<circle cx="16.8" cy="7.2" r="4.6" fill="#ffc93c" ' + O + '/><path d="M15.2 5.4a2.4 2.4 0 0 1 1.6-.8" stroke="#fff" stroke-width="1.3" stroke-linecap="round" fill="none"/>' + ICONS.mountain,
+  climb: ICONS.mountain + ln('M19.4 13.2V4.8M16.7 7.4l2.7-2.7 2.7 2.7', '#47c16a', 1.6),
+  nofall: '<circle cx="12" cy="12" r="9.6" fill="#fff"/>' + ln('M12 6.6v9.2M8.8 12.7l3.2 3.5 3.2-3.5', '#4fb3ff', 1.6) + ln('M5.3 18.7L18.7 5.3', '#ff5a4e', 1.4) + '<circle cx="12" cy="12" r="9.6" fill="none" stroke="' + INK + '" stroke-width="3.4"/><circle cx="12" cy="12" r="9.6" fill="none" stroke="#ff5a4e" stroke-width="1.7"/>'
+});
 // swap every <i data-ic="..."> placeholder for its svg, keeping id and class
 for (const el of [...document.querySelectorAll('i[data-ic]')]){
   el.outerHTML = icon(el.dataset.ic, (el.id ? ' id="' + el.id + '"' : '') + (el.className ? ' class="' + el.className + '"' : ''));
@@ -581,14 +702,27 @@ function add(p){ plats.push(p); (byRow[p.row] || (byRow[p.row] = [])).push(p); }
 // a mountain is 10 levels; each level is its own fixed course and brings in one new trick
 const KINDS = [[], ['crack'], ['blink'], ['crack', 'blink'], ['slide'], ['cone'], ['slide', 'cone'], ['crack', 'blink', 'slide'], ['crack', 'blink', 'slide', 'cone'], ['crack', 'blink', 'slide', 'cone']];
 const LENGTHS = [40, 50, 50, 60, 60, 70, 70, 80, 90, 100];
+// from mountain 2 on, each mountain brings a new trick into every level: a few at Lv 1, more toward Lv 10
+// mountain 2: thorn steps; mountain 3: birds; after that both
 function stageDef(m, st){
   const k = KINDS[st];
+  const thorn = m >= 1 ? Math.min(.45, .1 + st * .035 + (m - 1) * .03) : 0;     // share of plain stairs that become thorn steps
+  const bird = m >= 2 ? Math.max(2.6, 9 - st * .6 - (m - 2) * .6) : 0;          // seconds between birds
   return { m, s: st, lv: m * STAGES + st + 1, top: LENGTHS[st] + m * 20, steps: k.filter(x => x !== 'cone'), cone: k.includes('cone'),
+           thorn, bird, kinds: k.concat(thorn ? ['thorn'] : [], bird ? ['bird'] : []),
            seed: 1000 + m * 100 + st, p: Math.min(0.6, 0.42 + m * 0.06), bonus: 50 + st * 10 + m * 20 };
+}
+// today's mountain: one fixed course a day, the same for everyone, mixing the tricks of the mountain you're on
+function dailyDef(){
+  let h = 0; for (const ch of today()) h = (h * 31 + ch.charCodeAt(0)) | 0;
+  const m = prog.m, k = ['crack', 'blink', 'slide'];
+  const thorn = m >= 1 ? .14 : 0, bird = m >= 2 ? 6 : 0;
+  return { m, s: 5, lv: 0, daily: true, top: 60, steps: k, cone: true, thorn, bird, kinds: k.concat(['cone'], thorn ? ['thorn'] : [], bird ? ['bird'] : []),
+           seed: 50000 + (h & 0xffff), p: .4, bonus: 0 };
 }
 function build(D){
   plats = []; byRow = []; TOP = D.top;
-  const R = mulberry(D.seed);
+  const R = mulberry(D.seed), T = mulberry(D.seed + 13);   // T: thorn steps, kept apart so older courses don't change
   add({ row: 0, x0: 0, x1: COLS - 1, type: 'ground' });
   let x = 4, d = 1, run = 2, lastSlide = -9, prev = 'stair';
   const gentle = D.m === 0 && D.s === 0;
@@ -611,15 +745,17 @@ function build(D){
     let kind = '';
     const roll = R(), pick = R();
     if (inSeg >= 3 && D.steps.length && roll < D.p) kind = D.steps[Math.floor(pick * D.steps.length)];
+    const tr = T();
+    if (!kind && D.thorn && inSeg >= 2 && prev === 'stair' && tr < D.thorn) kind = 'thorn';
     // never make the player wait on a step that won't hold still
-    if ((kind === 'slide' && prev !== 'stair') || (kind === 'blink' && prev === 'crack')) kind = '';
+    if ((kind === 'slide' && prev !== 'stair') || (kind === 'blink' && (prev === 'crack' || prev === 'thorn'))) kind = '';
     if (kind === 'slide' && (r - lastSlide < 3 || x + 2 * d < 0 || x + 2 * d > COLS - 1)) kind = '';
     if (kind === 'slide'){
       const a = x, b = x + 2 * d;
       add({ row: r, type: 'slide', a, b, x0: Math.min(a, b), x1: Math.max(a, b), ph: (r * 0.7) % 3.4 });
       x = b; lastSlide = r; run = Math.max(run - 1, 0);
     } else {
-      add({ row: r, x0: x, x1: x, type: kind || 'stair', ph: -r * 0.42 });
+      add({ row: r, x0: x, x1: x, type: kind || 'stair', ph: kind === 'thorn' ? (r * 1.37) % THORN_T : -r * 0.42 });
     }
     prev = kind || 'stair';
   }
@@ -639,9 +775,14 @@ function slideK(p, t){
 const slideX = (p, t) => p.a + (p.b - p.a) * slideK(p, t);
 const BLINK_T = 2.6, BLINK_ON = 1.6;
 const blinkU = (p, t) => ((t + p.ph) % BLINK_T + BLINK_T) % BLINK_T;
+// thorn steps: every few seconds the spikes poke out for a moment; standing on one then knocks you off
+const THORN_T = 3.2, THORN_WARN = 2.0, THORN_UP = 2.6;
+const thornU = (p, t) => ((t + p.ph) % THORN_T + THORN_T) % THORN_T;
+const thornUp = (p, t) => thornU(p, t) >= THORN_UP;
 function solid(p, t){
-  if (p.type === 'crack') return !(p.brokeAt && t < p.brokeAt + 3);
-  if (p.type === 'blink') return blinkU(p, t) < BLINK_ON;
+  // cloud shoes: a step that broke or blinked out still holds you
+  if (p.type === 'crack') return act.boots > 0 || !(p.brokeAt && t < p.brokeAt + 3);
+  if (p.type === 'blink') return act.boots > 0 || blinkU(p, t) < BLINK_ON;
   return true;
 }
 function covers(p, col, t){
@@ -670,16 +811,16 @@ function beep(f0, f1, dur, type = 'sine', vol = .12){
 // ---------- state ----------
 let me, gt = 0, camY = 0, falls = 0, playTime = 0, best = 0;
 let prog = store.get('prog', { m: 0, s: 0 });
-function setBest(v){ best = v; store.set('best-' + def.lv, v); }
-let state = 'home', buffer = [], cones = [], coneT = 2, fx = [], floats = [], shake = 0, combo = 0;
+function setBest(v){ best = v; if (!def.daily) store.set('best-' + def.lv, v); }
+let state = 'home', buffer = [], cones = [], coneT = 2, birds = [], birdT = 4, fx = [], floats = [], shake = 0, combo = 0;
 let tutDone = store.get('tut', false);
 
 function newRun(save){
-  const at = playAt || prog; def = stageDef(at.m, at.s);
+  const at = playAt || prog; def = dailyRun ? dailyDef() : stageDef(at.m, at.s);
   if (save && save.lv !== def.lv) save = null;
-  track('level_start', { lv: def.lv, resume: save ? 1 : 0 });
-  best = store.get('best-' + def.lv, 0);
-  document.getElementById('hudLv').textContent = 'Lv ' + def.lv;
+  if (def.daily) track('daily_start', { m: def.m + 1 }); else track('level_start', { lv: def.lv, resume: save ? 1 : 0 });
+  best = def.daily ? 0 : store.get('best-' + def.lv, 0);
+  document.getElementById('hudLv').textContent = def.daily ? dayLabel() : 'Lv ' + def.lv;
   build(def); buildWorld();
   me = { mode: 'idle', x: 4, y: 0, face: 1, plat: byRow[0][0], hx: 0, hy: 0, tx: 0, ty: 0, h: 0, vy: 0, from: 0, squash: 0 };
   falls = 0; playTime = 0; gt = 0; hearts = MAX_HEARTS; check = { x: 4, y: 0 }; runCoins = 0;
@@ -691,11 +832,11 @@ function newRun(save){
     falls = save.falls || 0; playTime = save.time || 0;
     hearts = save.hearts || MAX_HEARTS; if (save.check) check = save.check;
   }
-  setHearts(); setRunCoins();
-  camY = me.y; buffer = []; cones = []; fx = []; floats = [];
+  setHearts(); setRunCoins(); renderItems();
+  camY = me.y; buffer = []; cones = []; birds = []; birdT = 4; fx = []; floats = [];
 }
 function saveNow(){
-  if (me.mode !== 'idle' || !me.plat) return;
+  if (me.mode !== 'idle' || !me.plat || def.daily) return;
   if (['stair', 'land', 'ground'].includes(me.plat.type)) store.set('save', { lv: def.lv, x: Math.round(me.x), y: me.y, falls, time: playTime, hearts, check, runCoins, taken: plats.filter(q => q.coinTaken).map(q => q.row) });
 }
 
@@ -738,6 +879,13 @@ function land(p, fell){
     hearts = MAX_HEARTS; check = { x: Math.round(me.x), y: p.row }; setHearts();
   }
 }
+// something hit the player: landings are safe and the shield bounces it off; otherwise you're knocked off your step
+function knock(){
+  if (me.mode === 'idle' && me.plat && (me.plat.type === 'land' || me.plat.type === 'ground')){ me.squash = 1; return; }
+  if (act.shield > 0){ shieldPing(); return; }
+  startFall(5, me.mode === 'hop' ? platAt(me.tx, me.ty, gt, false) : me.plat);
+}
+function shieldPing(){ me.squash = .6; shieldFlash = .3; beep(1200, 1700, .08, 'sine', .07); buzz(10); }
 // 3 hearts; every fall costs one, every landing refills them
 const MAX_HEARTS = 3, REVIVE_PRICE = 200, COIN_VALUE = 10;
 let deathSpot = null;
@@ -746,7 +894,7 @@ function setBanner(){ if (NATIVE) NATIVE.send('banner', { on: !noAds }); else do
 function setCoins(){ const h = document.getElementById('hCoins'); if (h) h.textContent = coins; }
 function setRunCoins(){ document.getElementById('coins').textContent = runCoins; }
 function takeCoin(p){
-  p.coinTaken = true; runCoins += COIN_VALUE; setRunCoins(); buzz(8);
+  p.coinTaken = true; runCoins += COIN_VALUE; setRunCoins(); buzz(8); mis('coin');
   beep(988, 1319, .1, 'square', .05);
   for (let i = 0; i < 6; i++) fx.push({ k: 'chip', x: me.x + .5 + (Math.random() - .5) * .6, y: p.row + .7, vx: (Math.random() - .5) * 3, vy: 2 + Math.random() * 3, c: '#ffc93c', t: 0 });
 }
@@ -777,27 +925,33 @@ function setReviveCoin(){ document.getElementById('reviveCoin').classList.toggle
 function respawn(cp){
   const p = platAt(cp.x, cp.y, gt, false) || byRow[cp.y][0];
   Object.assign(me, { mode: 'idle', x: cp.x, y: cp.y, plat: p, vy: 0, squash: 1 });
-  hearts = MAX_HEARTS; setHearts(); buffer = []; cones = []; camY = cp.y;
+  hearts = MAX_HEARTS; setHearts(); buffer = []; cones = []; birds = []; camY = cp.y;
   state = 'play';
 }
 
 function win(){
-  me.mode = 'win'; state = 'won'; setBest(TOP);
+  me.mode = 'win'; state = 'won'; if (!def.daily) setBest(TOP);
   for (let i = 0; i < 70; i++) fx.push({ k: 'conf', x: Math.random() * COLS, y: me.y + 2 + Math.random() * 4, vx: (Math.random() - .5) * 6, vy: Math.random() * 8, c: ['#ff5a4e','#ffc93c','#4fb3ff','#47d1a4','#ff8fc1'][i % 5], t: 0 });
   [523, 659, 784, 1046].forEach((f, i) => setTimeout(() => beep(f, f, .22, 'triangle', .1), i * 120));
-  const replay = def.m !== prog.m || def.s !== prog.s;
-  const payout = runCoins + (replay ? Math.round(def.bonus / 2) : def.bonus);   // replays pay half the clear bonus
+  const replay = !def.daily && (def.m !== prog.m || def.s !== prog.s);
+  // today's mountain pays its prize on the first clear of the day; replays pay half the clear bonus
+  const firstDaily = def.daily && daily.day !== today();
+  const payout = runCoins + (def.daily ? (firstDaily ? DAILY_REWARD.c : 0) : replay ? Math.round(def.bonus / 2) : def.bonus);
   coins += payout; store.set('coins', coins); setCoins(); runCoins = 0;
-  store.set('save', null);
+  if (firstDaily){ daily = { day: today() }; store.set('daily', daily); giveItems({ shield: DAILY_REWARD.shield, boots: DAILY_REWARD.boots }); track('daily_clear', { falls }); }
+  if (!def.daily) store.set('save', null);
   // stars: no falls, under par, every coin
   const allC = plats.filter(q => q.coin), got = allC.filter(q => q.coinTaken).length, par = parTime(def);
   const ok = [falls === 0, playTime <= par, got === allC.length];
   const bits = ok.reduce((b, v, i) => b | (v ? 1 << i : 0), 0);
-  track('level_clear', { lv: def.lv, falls, sec: Math.round(playTime), stars: ok.filter(Boolean).length, replay: replay ? 1 : 0 });
-  store.set('stars-' + def.lv, starsOf(def.lv) | bits);
+  if (!def.daily){
+    track('level_clear', { lv: def.lv, falls, sec: Math.round(playTime), stars: ok.filter(Boolean).length, replay: replay ? 1 : 0 });
+    store.set('stars-' + def.lv, starsOf(def.lv) | bits);
+  }
+  mis('clear'); if (falls === 0) mis('nofall'); if (bits === 7) mis('star3');
   clears = store.get('clears', 0) + 1; store.set('clears', clears);
   // move the mountain progress on; the home screen plays the climb
-  if (!replay){
+  if (!replay && !def.daily){
     const from = { m: prog.m, s: prog.s };
     prog = prog.s + 1 >= STAGES ? { m: prog.m + 1, s: 0 } : { m: prog.m, s: prog.s + 1 };
     store.set('prog', prog);
@@ -809,7 +963,9 @@ function win(){
   if (acct) backupNow();   // signed in: every clear is backed up
   setTimeout(() => {
     const $ = id => document.getElementById(id);
-    $('wLv').textContent = 'Lv ' + def.lv;
+    $('wLv').textContent = def.daily ? dayLabel() : 'Lv ' + def.lv;
+    $('wItems').innerHTML = firstDaily ? rewardChips({ shield: DAILY_REWARD.shield, boots: DAILY_REWARD.boots }) : '';
+    $('again').hidden = !!def.daily;
     $('wFalls').textContent = falls; $('wTime').textContent = fmt(playTime) + ' / ' + fmt(par); $('wGot').textContent = got + '/' + allC.length;
     ok.forEach((v, i) => $('g' + i).classList.toggle('ok', v));
     $('wStars').innerHTML = ok.map((v, i) => icon(v ? 'star' : 'starOff', v ? ' class="pin" style="animation-delay:' + (i * .25 + .1) + 's"' : '')).join('');
@@ -824,6 +980,8 @@ const fmt = s => { s = Math.floor(s); const h = Math.floor(s / 3600), m = Math.f
 // ---------- update ----------
 function update(dt){
   gt += dt; playTime += dt;
+  if (state === 'play') for (const k in act) if (act[k] > 0){ act[k] = Math.max(0, act[k] - dt); if (!act[k]) itemEnd(k); }
+  shieldFlash = Math.max(0, shieldFlash - dt);
   // cracked steps break shortly after being stepped on
   for (const p of plats){
     if (p.type === 'crack' && p.touchAt && gt - p.touchAt > 0.8){
@@ -842,6 +1000,7 @@ function update(dt){
       const p = platAt(me.tx, me.ty, gt, true);
       if (p){
         land(p); combo++;
+        if (me.ty > me.hy) mis('climb');
         beep(420 + Math.min(combo, 12) * 30, 520 + Math.min(combo, 12) * 30, .05, 'sine', .07);
         if (me.mode === 'idle' && buffer.length) step(buffer.shift());
       } else startFall(3);
@@ -849,6 +1008,10 @@ function update(dt){
   } else if (me.mode === 'idle'){
     if (me.plat && me.plat.type === 'slide') me.x = slideX(me.plat, gt);
     if (me.plat && !solid(me.plat, gt)) startFall(0);
+    else if (me.plat && me.plat.type === 'thorn' && thornUp(me.plat, gt)){
+      if (act.shield > 0){ if (gt - (me.plat.pinged || -9) > 1){ me.plat.pinged = gt; shieldPing(); } }
+      else { beep(900, 200, .15, 'sawtooth', .06); startFall(5, me.plat); }
+    }
   }
   if (me.mode === 'fall'){
     me.vy = Math.max(me.vy - 70 * dt, -45);
@@ -900,14 +1063,35 @@ function update(dt){
     if (!c.hit && (me.mode === 'idle' || me.mode === 'hop') && Math.abs(me.x - c.col) < 0.55 && c.y < me.y + 1.3 && py > me.y - 0.1){
       c.hit = true; c.vy = 8; c.vx = me.face * -4;
       beep(900, 300, .12, 'square', .06);
-      // landings are safe: the cone just bonks off
-      const onLanding = me.mode === 'idle' && me.plat && (me.plat.type === 'land' || me.plat.type === 'ground');
-      if (onLanding) me.squash = 1;
-      else startFall(5, me.mode === 'hop' ? platAt(me.tx, me.ty, gt, false) : me.plat);
+      knock();
     }
     if (c.hit){ c.vy -= 60 * dt; c.col += (c.vx || 0) * dt; }
   }
   cones = cones.filter(c => c.y > camY - 30);
+
+  // birds sweep across a row just ahead (mountain 3 on); a red band marks the row first
+  if (def.bird && me.y > 3 && me.mode !== 'win'){
+    birdT -= dt;
+    if (birdT <= 0){
+      birdT = def.bird * (.8 + Math.random() * .4);
+      const row = Math.floor(me.y) + 2 + Math.floor(Math.random() * 3), L = byRow[row];
+      if (L && row < TOP && L[0].type !== 'land'){
+        const dir = Math.random() < .5 ? 1 : -1;
+        birds.push({ row, y: row, dir, x: dir > 0 ? -3 : COLS + 2, warn: 1.2, hit: false });
+      }
+    }
+  }
+  for (const b of birds){
+    if (b.warn > 0){ b.warn -= dt; continue; }
+    const px = b.x; b.x += b.dir * 7 * dt;
+    if (b.hit){ b.y += 5 * dt; continue; }
+    if ((me.mode === 'idle' || me.mode === 'hop') && Math.abs(me.y - b.row) < .6 && Math.min(px, b.x) - .55 < me.x && Math.max(px, b.x) + .55 > me.x){
+      b.hit = true; beep(1100, 500, .14, 'square', .06); knock();
+    }
+  }
+  birds = birds.filter(b => b.warn > 0 || (b.x > -6 && b.x < COLS + 5));
+  // cloud shoes leave little puffs
+  if (act.boots > 0 && me.mode !== 'fall' && Math.random() < dt * 10) fx.push({ k: 'dust', x: me.x + .5 + (Math.random() - .5) * .5, y: me.y + .05, vx: (Math.random() - .5), vy: .6, c: '#fff', t: 0 });
 
   for (const f of fx){ f.t += dt; f.x += f.vx * dt; f.y += f.vy * dt; f.vy -= (f.k === 'conf' ? 6 : f.k === 'trail' ? 0 : 14) * dt; }
   fx = fx.filter(f => f.t < (f.k === 'conf' ? 4 : 0.8));
@@ -958,6 +1142,11 @@ const slideTex = canvasTex(g => {
   g.beginPath(); g.moveTo(14, 64); g.lineTo(46, 40); g.lineTo(46, 88); g.fill();
   g.beginPath(); g.moveTo(114, 64); g.lineTo(82, 40); g.lineTo(82, 88); g.fill();
 });
+const thornTex = canvasTex(g => {
+  g.fillStyle = '#a383a8'; g.fillRect(0, 0, 128, 128);
+  g.fillStyle = '#6e4f73';
+  for (const [x, y] of [[22, 32], [64, 32], [106, 32], [22, 96], [64, 96], [106, 96]]){ g.beginPath(); g.arc(x, y, 8, 0, 7); g.fill(); }
+});
 const woodTex = canvasTex(g => {
   g.fillStyle = '#f0b474'; g.fillRect(0, 0, 128, 128);
   g.strokeStyle = 'rgba(150,90,40,.35)'; g.lineWidth = 3;
@@ -965,8 +1154,10 @@ const woodTex = canvasTex(g => {
 });
 const MAT = {
   stair: lam(0xffffff, { map: woodTex }), land: lam(0xc4cddd), top: lam(0xffe69a), ground: lam(0x8fd16c),
-  slide: lam(0xffffff, { map: slideTex }), rail: lam(0xffffff, { transparent: true, opacity: .45 })
+  slide: lam(0xffffff, { map: slideTex }), rail: lam(0xffffff, { transparent: true, opacity: .45 }),
+  thorn: lam(0xffffff, { map: thornTex })
 };
+const spikeGeo = new THREE.ConeGeometry(.12, .42, 6); spikeGeo.translate(0, .21, 0);
 const BOX_H = 0.5, BOX_D = 1.3;
 const unitBox = new THREE.BoxGeometry(1, 1, 1);
 function boxMesh(mat, w, h, d){ const m = new THREE.Mesh(unitBox, mat); m.scale.set(w, h, d); m.castShadow = true; m.receiveShadow = true; return m; }
@@ -1011,6 +1202,12 @@ function buildWorld(){
     if (p.type === 'slide'){
       const rail = boxMesh(MAT.rail, (p.x1 - p.x0) * SP, 0.06, 0.06); rail.castShadow = false;
       rail.position.set(X((p.x0 + p.x1) / 2), Y(p.row) - BOX_H / 2, BOX_D / 2 + 0.05); world.add(rail);
+    }
+    if (p.type === 'thorn'){
+      // six spikes hidden inside the block; draw() pushes them out
+      const sp = new THREE.Group(); p.spikeMat = lam(0xf2f4f8, { flatShading: true });
+      for (const dx of [-.28, 0, .28]) for (const dz of [-.3, .3]){ const c = new THREE.Mesh(spikeGeo, p.spikeMat); c.position.set(dx, 0, dz); c.castShadow = true; sp.add(c); }
+      sp.position.set(X(p.x0), Y(p.row) - .44, 0); sp.visible = false; world.add(sp); p.spikes = sp;
     }
     if (p.type === 'land') world.add(lantern(X(p.x0) - 0.25, Y(p.row), -0.45));
     if (p.type === 'top') world.add(bellArch(Y(p.row)));
@@ -1083,12 +1280,31 @@ function makeChar(){
   return { g, body };
 }
 const { g: meG, body: meBody } = makeChar(); scene.add(meG);
+const shieldMesh = new THREE.Mesh(sphere, new THREE.MeshBasicMaterial({ color: 0x6cc4ff, transparent: true, opacity: .26, depthWrite: false }));
+shieldMesh.position.y = .36; shieldMesh.visible = false; meG.add(shieldMesh);
+// a light rim: the back faces of a slightly bigger sphere read as an outline
+const shieldRim = new THREE.Mesh(sphere, new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: .55, side: THREE.BackSide, depthWrite: false }));
+shieldRim.scale.setScalar(1.06); shieldMesh.add(shieldRim);
 const eyes = meBody.children.filter(o => o.name === 'eye');
 
 // pinecones, warning beams, effects
 const coneGeo = sphere, coneMat = lam(0x9a5b2e, { flatShading: true });
 const beamMat = new THREE.MeshBasicMaterial({ color: 0xff5a4e, transparent: true, opacity: .25, depthWrite: false });
-const coneMeshes = new Map(), fxMeshes = new Map();
+const coneMeshes = new Map(), fxMeshes = new Map(), birdMeshes = new Map();
+const birdBeamMat = new THREE.MeshBasicMaterial({ color: 0xff5a4e, transparent: true, opacity: .3, depthWrite: false });
+const beakGeo = new THREE.ConeGeometry(.06, .18, 6); beakGeo.rotateZ(-Math.PI / 2);
+function makeBird(){
+  const g = new THREE.Group(), blue = lam(0x4fb3ff), light = lam(0x9bd8ff);
+  const body = new THREE.Mesh(sphere, blue); body.scale.set(.3, .2, .2); body.castShadow = true; g.add(body);
+  const head = new THREE.Mesh(sphere, blue); head.scale.setScalar(.15); head.position.set(.26, .12, 0); g.add(head);
+  const beak = new THREE.Mesh(beakGeo, lam(0xffb33c)); beak.position.set(.44, .1, 0); g.add(beak);
+  for (const s of [-1, 1]){ const e = new THREE.Mesh(sphere, lam(0x2b3140)); e.scale.setScalar(.03); e.position.set(.36, .17, s * .1); g.add(e); }
+  const tail = new THREE.Mesh(unitBox, light); tail.scale.set(.18, .04, .16); tail.position.set(-.3, .06, 0); tail.rotation.z = .3; g.add(tail);
+  const wing = s => { const w = new THREE.Group(), m = new THREE.Mesh(unitBox, light); m.scale.set(.26, .03, .3); m.position.z = s * .17; w.add(m); w.position.set(-.02, .1, s * .12); g.add(w); return w; };
+  const w1 = wing(1), w2 = wing(-1); g.scale.setScalar(1.6);
+  const beam = new THREE.Mesh(unitBox, birdBeamMat.clone());
+  return { g, w1, w2, beam };
+}
 const bestBar = new THREE.Mesh(unitBox, new THREE.MeshBasicMaterial({ color: 0xffd65a, transparent: true, opacity: .7 }));
 bestBar.scale.set(COLS * SP, .05, .05); bestBar.position.z = BOX_D / 2 + .1; scene.add(bestBar);
 
@@ -1144,24 +1360,35 @@ function draw(){
 
   for (const p of plats){
     const m = p.mesh; if (!m) continue;
-    if (Math.abs(p.row - camY) > 40){ m.visible = false; if (p.ghost) p.ghost.visible = false; continue; }
+    if (Math.abs(p.row - camY) > 40){ m.visible = false; if (p.ghost) p.ghost.visible = false; if (p.spikes) p.spikes.visible = false; continue; }
     m.visible = true;
     if (p.type === 'slide') m.position.x = X(slideX(p, gt));
     else if (p.type === 'crack'){
       const broken = p.brokeAt && gt < p.brokeAt + 3;
       const back = broken ? p.brokeAt + 3 - gt : 1;
-      m.visible = !broken || back < .5;
-      m.material.opacity = broken ? (.5 - back) * 2 : 1;
-      p.ghost.visible = broken && back >= .5;
+      const cloudy = act.boots > 0;   // cloud shoes: the gap shows as a faint step you can still use
+      m.visible = !broken || back < .5 || cloudy;
+      m.material.opacity = broken ? Math.max(cloudy ? .35 : 0, (.5 - back) * 2) : 1;
+      p.ghost.visible = broken && back >= .5 && !cloudy;
       m.position.x = X(p.x0) + (p.touchAt ? Math.sin(gt * 70) * .05 : 0);
       if (broken && back >= .5){ m.position.y = Y(p.row) - BOX_H / 2; }
     } else if (p.type === 'blink'){
       const u = blinkU(p, gt), on = u < BLINK_ON;
-      m.visible = on; p.ghost.visible = !on;
+      const cloudy = act.boots > 0;
+      m.visible = on || cloudy; p.ghost.visible = !on && !cloudy;
       const warn = u > BLINK_ON - .45 ? (Math.sin(gt * 40) > 0 ? .4 : .95) : .95;
       const pop = u < .12 ? u / .12 : 1;
-      m.material.opacity = warn * pop;
-      m.position.y = Y(p.row) - BOX_H / 2 - (1 - pop) * .15;
+      m.material.opacity = on ? Math.max(cloudy ? .35 : 0, warn * pop) : .35;
+      m.position.y = Y(p.row) - BOX_H / 2 - (on ? (1 - pop) * .15 : 0);
+    } else if (p.type === 'thorn'){
+      // down: hidden in the block; warning: the tips peek out and shiver red; up: all the way out
+      const u = thornU(p, gt);
+      let k = 0;
+      if (u >= THORN_UP) k = Math.min(1, (u - THORN_UP) / .07) * Math.min(1, (THORN_T - u) / .1);
+      else if (u >= THORN_WARN) k = .28 + Math.sin(gt * 55) * .05;
+      p.spikes.visible = k > 0;
+      p.spikes.position.y = Y(p.row) - .44 + k * .44;
+      p.spikeMat.color.setHex(u >= THORN_WARN && u < THORN_UP ? 0xff5a4e : 0xf2f4f8);
     }
   }
 
@@ -1175,6 +1402,10 @@ function draw(){
   meBody.scale.set((1 + sq * .2) * (falling ? .9 : 1), (1 - sq * .2) * (falling ? 1.15 : 1), 1 + sq * .2);
   meBody.rotation.z = falling ? Math.sin(gt * 30) * .25 : 0;
   for (const e of eyes) e.scale.y = falling ? .015 : .055;
+  // shield: a soft bubble that blinks in its last 5 seconds and flashes when something bounces off
+  shieldMesh.visible = act.shield > 0 && (act.shield > 5 || Math.sin(gt * 18) > 0);
+  shieldMesh.material.opacity = .26 + shieldFlash * 1.6;
+  shieldMesh.scale.setScalar(.5 + Math.sin(gt * 4) * .015 + shieldFlash * .35);
 
   for (const p of plats) if (p.coinMesh){ p.coinMesh.visible = !p.coinTaken && Math.abs(p.row - camY) < 40; p.coinMesh.rotation.z = gt * 3 + p.row; p.coinMesh.position.y = Y(p.row) + .45 + Math.sin(gt * 3 + p.row) * .05; }
   if (bell) bell.rotation.z = me.mode === 'win' ? Math.sin(gt * 10) * .45 : Math.sin(gt * 1.5) * .06;
@@ -1201,6 +1432,19 @@ function draw(){
     }
   }
   for (const [c, o] of coneMeshes) if (!cones.includes(c)){ scene.remove(o.cone, o.beam); coneMeshes.delete(c); }
+
+  // birds and the red band over their row
+  for (const b of birds){
+    let o = birdMeshes.get(b);
+    if (!o){ o = makeBird(); scene.add(o.g, o.beam); birdMeshes.set(b, o); }
+    o.beam.visible = b.warn > 0;
+    if (b.warn > 0){ o.beam.scale.set(COLS * SP + 6, .6, .3); o.beam.position.set(0, Y(b.row) + .5, .3); o.beam.material.opacity = Math.sin(gt * 20) > -.3 ? .3 : .14; }
+    o.g.position.set(X(b.x), Y(b.y) + .55, .2);
+    o.g.rotation.y = b.dir > 0 ? 0 : Math.PI;
+    o.g.rotation.z = b.hit ? .6 : 0;
+    const f = Math.sin(gt * 22) * .9; o.w1.rotation.x = f; o.w2.rotation.x = -f;
+  }
+  for (const [b, o] of birdMeshes) if (!birds.includes(b)){ scene.remove(o.g, o.beam); birdMeshes.delete(b); }
 
   // effects
   for (const f of fx){
@@ -1442,7 +1686,7 @@ function frame(ts){
   shake = Math.max(0, shake - dt);
   const target = me.y;
   camY += (target - camY) * Math.min(1, dt * (me.mode === 'fall' ? 10 : 6));
-  if (state === 'play'){ saveT += dt; if (saveT > 1){ saveT = 0; saveNow(); } }
+  if (state === 'play'){ saveT += dt; if (saveT > 1){ saveT = 0; saveNow(); flushMis(); } tickItems(); }
   document.getElementById('h').textContent = Math.max(0, Math.floor(me.y));
   document.getElementById('best').textContent = best;
   updateHint();
@@ -1456,7 +1700,8 @@ const today = () => { const d = new Date(); return d.getFullYear() + '-' + (d.ge
 function goHome(){
   if (state === 'play') saveNow();
   state = 'home'; document.body.classList.add('at-home');
-  for (const id of ['over', 'win', 'att', 'mini', 'ad', 'shop', 'set', 'rest', 'intro', 'closet', 'summit']) $(id).hidden = true;
+  for (const id of ['over', 'win', 'att', 'mini', 'ad', 'shop', 'set', 'rest', 'intro', 'closet', 'summit', 'mis', 'gift', 'day']) $(id).hidden = true;
+  act = { shield: 0, boots: 0 }; dailyRun = false; flushMis();
   closetOpen = false; $('home').classList.remove('dressing');
   $('home').hidden = false;
   if (pendingClimb){
@@ -1477,6 +1722,9 @@ function updateHomeUI(){
   $('starNo').textContent = starCount(prog.m) + '/' + STAGES * 3;
   $('attDot').hidden = !attCanClaim();
   const left = miniLeft(); $('miniDot').hidden = left <= 0; $('miniDot').textContent = left;
+  const ready = misReady(); $('misDot').hidden = !ready; $('misDot').textContent = ready;
+  $('giftDot').hidden = giftToday().n >= GIFT_FREE; $('giftDot').textContent = 1;
+  $('dayDot').hidden = daily.day === today(); $('dayDot').textContent = 1;
 }
 function startLevel(){
   if (climb) return;
@@ -1486,7 +1734,7 @@ function startLevel(){
 }
 $('stageDots').onclick = e => {
   const b = e.target.closest('button.done'); if (!b || climb) return;
-  playAt = { m: prog.m, s: +b.dataset.s }; startLevel();
+  dailyRun = false; playAt = { m: prog.m, s: +b.dataset.s }; startLevel();
 };
 
 // ---------- daily check-in: 7 days, then it starts over ----------
@@ -1546,14 +1794,14 @@ $('miniGo').onclick = () => {
   mini.used++; store.set('mini', mini);
   coins += win; store.set('coins', coins); setCoins();
   $('miniRes').innerHTML = icon('coin') + '+' + win;
-  if (win === 100){ const b = $('miniBell'); b.classList.remove('ring'); void b.offsetWidth; b.classList.add('ring'); [1046, 1319, 1568].forEach((f, i) => setTimeout(() => beep(f, f, .2, 'triangle', .09), i * 110)); }
+  if (win === 100){ mis('bell'); const b = $('miniBell'); b.classList.remove('ring'); void b.offsetWidth; b.classList.add('ring'); [1046, 1319, 1568].forEach((f, i) => setTimeout(() => beep(f, f, .2, 'triangle', .09), i * 110)); }
   else beep(win > 10 ? 784 : 392, win > 10 ? 988 : 330, .15, 'triangle', .08);
   renderMini();
   setTimeout(() => { if (!$('mini').hidden && miniLeft() > 0) miniStart(); }, 1300);
 };
 
 function setSoundIcon(){ renderToggles(); }
-$('play').onclick = () => { playAt = null; startLevel(); };
+$('play').onclick = () => { dailyRun = false; playAt = null; startLevel(); };
 $('snd').onclick = () => { soundOn = !soundOn; store.set('sound', soundOn); renderToggles(); beep(660, 880, .08); };
 $('pause').onclick = goHome;
 $('overHome').onclick = goHome;
@@ -1572,7 +1820,7 @@ $('fromStart').onclick = () => { $('over').hidden = true; newRun(null); state = 
 // after a clear the next level starts straight away; only the summit sends you home to celebrate
 function nextLevel(){ $('win').hidden = true; playAt = null; newRun(null); state = 'play'; beep(660, 880, .08); introNew(); }
 $('again').onclick = () => {
-  const go = summitDone ? goHome : nextLevel;
+  const go = summitDone || def.daily ? goHome : nextLevel;
   if (!noAds && clears >= 3 && clears % 3 === 0 && def.lv > 3){ $('win').hidden = true; showAd(go, 'interstitial'); } else go();
 };
 $('winHome').onclick = goHome;
@@ -1602,10 +1850,10 @@ document.addEventListener('visibilitychange', () => { if (document.hidden && sta
 
 // kind: 'rewarded' gives the reward only when watched to the end; 'interstitial' always goes on afterwards.
 // In the browser a 3-second countdown stands in for the ad.
-function showAd(done, kind){
+function showAd(done, kind, fail){
   if (NATIVE){
     const was = state; state = 'ad';
-    NATIVE.call('ad', { kind: kind || 'rewarded' }).then(r => { state = was; if (r.ok || kind === 'interstitial') done(); });
+    NATIVE.call('ad', { kind: kind || 'rewarded' }).then(r => { state = was; if (r.ok || kind === 'interstitial') done(); else if (fail) fail(); });
     return;
   }
   $('ad').hidden = false; let n = 3; $('adCount').textContent = n;
@@ -1642,6 +1890,7 @@ function adCoinLeft(){ if (adc.day !== today()) adc = { day: today(), n: 0 }; re
 function renderShop(){
   $('sCoins').textContent = coins; $('noadsBtn').classList.toggle('owned', noAds);
   const l = adCoinLeft(); $('adLeft').textContent = l; $('shopAd').disabled = l <= 0;
+  $('sitems').innerHTML = Object.keys(ITEMS).map(k => '<button class="sitem' + (coins < ITEMS[k].price ? ' short' : '') + '" data-k="' + k + '" aria-label="buy ' + k + '">' + icon(k) + '<span class="have">' + inv[k] + '</span><span class="price">' + icon('coin') + ITEMS[k].price + '</span></button>').join('');
   $('packs').innerHTML = PACKS.map((k, i) => '<button class="pack' + (k.best ? ' best' : '') + '" data-i="' + i + '" aria-label="' + k.c + ' coins">' + pileSvg(i) + '<b>' + k.c.toLocaleString() + '</b><span class="price">' + k.p + '</span></button>').join('');
 }
 function openShop(){ renderShop(); $('shop').hidden = false; }
@@ -1758,18 +2007,20 @@ const PICS = {
   crack: '<svg viewBox="0 0 64 40"><rect x="6" y="14" width="40" height="16" rx="5" fill="#d8c7b4" ' + O + '/><path d="M18 14l5 7-3 5 2 4M23 21l9 2 3 7" fill="none" stroke="' + INK + '" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>' + ln('M50 8l4 4m0-4l-4 4', '#ff5a4e', 1.4) + '<circle cx="54" cy="28" r="7" fill="#fff" ' + O + '/><path d="M54 24.5V28l2.2 1.6" fill="none" stroke="' + INK + '" stroke-width="1.6" stroke-linecap="round"/></svg>',
   blink: '<svg viewBox="0 0 64 40"><rect x="4" y="14" width="24" height="14" rx="5" fill="#b9e8ff" ' + O + '/><rect x="36" y="14" width="24" height="14" rx="5" fill="none" stroke="' + INK + '" stroke-width="1.6" stroke-dasharray="3 3" opacity=".6"/>' + ln('M29 21h6', '#fff', 1.4) + '</svg>',
   slide: '<svg viewBox="0 0 64 40"><rect x="18" y="13" width="28" height="15" rx="5" fill="#7fe0c8" ' + O + '/>' + ln('M12 20.5H3m3-3l-3 3 3 3M52 20.5h9m-3-3l3 3-3 3', '#fff', 1.6) + '</svg>',
+  thorn: '<svg viewBox="0 0 64 40"><path d="M13 19l3.5-10 3.5 10zM21.5 19l3.5-10 3.5 10zM30 19l3.5-10 3.5 10z" fill="#f2f4f8" ' + O + '/><rect x="9" y="18" width="32" height="13" rx="4" fill="#a383a8" ' + O + '/><circle cx="54" cy="24" r="7" fill="#fff" ' + O + '/><path d="M54 20.5V24l2.2 1.6" fill="none" stroke="' + INK + '" stroke-width="1.6" stroke-linecap="round"/></svg>',
+  bird: '<svg viewBox="0 0 64 40"><rect x="2" y="13" width="60" height="16" rx="3" fill="#ff5a4e" opacity=".25"/><path d="M27 20c-2-7-8-8-10-7 2 4 5 7 10 7z" fill="#9bd8ff" ' + O + '/><ellipse cx="29" cy="22" rx="8" ry="5.5" fill="#4fb3ff" ' + O + '/><circle cx="36" cy="18" r="4.2" fill="#4fb3ff" ' + O + '/><path d="M39.8 17.4l4.6 1.2-4.6 1.4z" fill="#ffb33c" ' + O + '/><circle cx="37.2" cy="17.2" r="1" fill="' + INK + '"/>' + ln('M49 21h9m-3-3l3 3-3 3', '#fff', 1.6) + '</svg>',
   cone: '<svg viewBox="0 0 64 40"><rect x="25" y="16" width="14" height="22" rx="2" fill="#ff5a4e" opacity=".3"/><ellipse cx="32" cy="10" rx="5.5" ry="7" fill="#9a5b2e" ' + O + '/><path d="M28 8h8M27.5 12h9" stroke="#6b3c1c" stroke-width="1.4"/>' + ln('M48 10v10', '#ff5a4e', 2.2) + '<circle cx="48" cy="26" r="1.8" fill="#ff5a4e" stroke="' + INK + '" stroke-width="1"/></svg>'
 };
 let seen = store.get('seen', []);
 function introNew(){
-  const kinds = KINDS[def.s].filter(k => !seen.includes(k));
+  const kinds = def.kinds.filter(k => !seen.includes(k));
   if (!kinds.length) return false;
   $('introPics').innerHTML = kinds.map(k => '<div class="pic">' + PICS[k] + '</div>').join('');
   $('intro').hidden = false; state = 'intro';
   return true;
 }
 $('introOk').onclick = () => {
-  seen = [...new Set([...seen, ...KINDS[def.s]])]; store.set('seen', seen);
+  seen = [...new Set([...seen, ...def.kinds])]; store.set('seen', seen);
   $('intro').hidden = true; state = 'play';
 };
 
@@ -1879,12 +2130,166 @@ $('wBuy').onclick = () => {
   if (acct) backupNow();
 };
 
+// ---------- items: shield (pinecones, thorns and birds bounce off) and cloud shoes (broken or blinked-out steps still hold you) ----------
+const ITEMS = { shield: { dur: 45, price: 150 }, boots: { dur: 30, price: 150 } };
+const ITEM_AD_MAX = 5;   // none left: a rewarded ad gives one, a few times a day
+let inv = store.get('inv', { shield: 2, boots: 2 }), act = { shield: 0, boots: 0 }, shieldFlash = 0;
+let itemAd = store.get('itemad', { day: '', n: 0 });
+function itemAdLeft(){ if (itemAd.day !== today()) itemAd = { day: today(), n: 0 }; return ITEM_AD_MAX - itemAd.n; }
+const itemBtns = [...document.querySelectorAll('.item')];
+function renderItems(){
+  for (const b of itemBtns){
+    const k = b.dataset.k, n = inv[k], badge = b.querySelector('.n');
+    badge.classList.toggle('ad', n <= 0);
+    badge.innerHTML = n > 0 ? n : icon('ad');
+    b.disabled = act[k] <= 0 && n <= 0 && itemAdLeft() <= 0;
+  }
+  tickItems();
+}
+function tickItems(){
+  for (const b of itemBtns){
+    const k = b.dataset.k, on = act[k] > 0;
+    b.classList.toggle('on', on);
+    if (on){ b.style.setProperty('--p', (act[k] / ITEMS[k].dur).toFixed(3)); b.querySelector('.t').textContent = Math.ceil(act[k]); }
+  }
+}
+function useItem(k, by){
+  if (state !== 'play' || act[k] > 0) return;
+  if (inv[k] <= 0){
+    if (itemAdLeft() <= 0) return;
+    state = 'itemAd';   // the climb waits while the ad plays
+    showAd(() => { itemAd.n++; store.set('itemad', itemAd); inv[k]++; state = 'play'; useItem(k, 'ad'); }, 'rewarded', () => { state = 'play'; });
+    return;
+  }
+  inv[k]--; store.set('inv', inv); act[k] = ITEMS[k].dur;
+  track('item_use', { k, by: by || 'own', lv: def.lv }); mis('item');
+  [784, 988, 1319].forEach((f, i) => setTimeout(() => beep(f, f, .1, 'triangle', .07), i * 70)); buzz(20);
+  renderItems();
+}
+function itemEnd(k){ beep(660, 330, .15, 'triangle', .06); renderItems(); }
+function giveItems(r){
+  if (r.c) addCoins(r.c);
+  let any = false; for (const k in ITEMS) if (r[k]){ inv[k] += r[k]; any = true; }
+  if (any) store.set('inv', inv);
+  renderItems();
+}
+const rewardChips = r => (r.c ? '<span class="chip">' + icon('coin') + r.c + '</span>' : '') + Object.keys(ITEMS).filter(k => r[k]).map(k => '<span class="chip">' + icon(k) + '×' + r[k] + '</span>').join('');
+itemBtns.forEach(b => b.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); useItem(b.dataset.k); }));
+$('sitems').onclick = e => {
+  const b = e.target.closest('.sitem'); if (!b) return;
+  const k = b.dataset.k, it = ITEMS[k];
+  if (coins < it.price){ beep(300, 200, .12, 'square', .05); return; }
+  coins -= it.price; store.set('coins', coins); setCoins();
+  inv[k]++; store.set('inv', inv); track('item_buy', { k }); fanfare(); renderShop(); renderItems();
+};
+
+// ---------- daily missions: 3 a day from a pool; each pays coins or an item (×2 with an ad); all 3 open a chest ----------
+const MISSIONS = [
+  { id: 'clear', n: 2, ic: 'flag', r: { c: 100 } },
+  { id: 'coin', n: 15, ic: 'coin', r: { shield: 1 } },
+  { id: 'climb', n: 150, ic: 'climb', r: { c: 80 } },
+  { id: 'nofall', n: 1, ic: 'nofall', r: { boots: 1 } },
+  { id: 'bell', n: 1, ic: 'bell', r: { c: 60 } },
+  { id: 'item', n: 2, ic: 'shield', r: { c: 80 } },
+  { id: 'star3', n: 1, ic: 'star', r: { boots: 1 } }
+];
+const MIS_CHEST = { c: 150, shield: 1, boots: 1 };
+let ms = store.get('mis', null), misDirty = false;
+function misToday(){
+  if (!ms || ms.day !== today()){
+    let h = 7; for (const ch of today()) h = (h * 31 + ch.charCodeAt(0)) | 0;
+    const R = mulberry(h), pool = MISSIONS.map(q => q.id), ids = [];
+    while (ids.length < 3) ids.push(pool.splice(Math.floor(R() * pool.length), 1)[0]);
+    ms = { day: today(), ids, p: [0, 0, 0], got: [0, 0, 0], chest: 0 };
+    store.set('mis', ms);
+  }
+  return ms;
+}
+const misDef = id => MISSIONS.find(q => q.id === id);
+function mis(id, n){
+  const m = misToday(), i = m.ids.indexOf(id); if (i < 0) return;
+  const d = misDef(id); if (m.p[i] >= d.n) return;
+  m.p[i] = Math.min(d.n, m.p[i] + (n || 1)); misDirty = true;
+  if (m.p[i] >= d.n){ flushMis(); beep(1046, 1568, .12, 'triangle', .06); }
+}
+function flushMis(){ if (misDirty){ misDirty = false; store.set('mis', ms); } }   // climbing counts every step, so it's written once a second
+function misReady(){ const m = misToday(); return m.ids.filter((id, i) => m.p[i] >= misDef(id).n && !m.got[i]).length + (m.got.every(Boolean) && !m.chest ? 1 : 0); }
+function renderMis(){
+  const m = misToday();
+  $('misList').innerHTML = m.ids.map((id, i) => {
+    const d = misDef(id), done = m.p[i] >= d.n, got = m.got[i];
+    return '<div class="mrow' + (got ? ' done' : done ? ' ready' : '') + '">' + icon(d.ic) + '<div class="mbar"><i style="width:' + (m.p[i] / d.n * 100).toFixed(1) + '%"></i><span>' + m.p[i] + '/' + d.n + '</span></div><div class="rew">' + rewardChips(d.r) + '</div>' +
+      (got ? '<span class="mtick">' + icon('check') + '</span>' : done ? '<button class="mbtn x2" data-i="' + i + '" data-x="2" aria-label="watch an ad for double">' + icon('ad') + '<b>×2</b></button><button class="mbtn" data-i="' + i + '" aria-label="claim">' + icon('check') + '</button>' : '') + '</div>';
+  }).join('');
+  $('misChest').className = 'chestBtn' + (m.chest ? ' done' : m.got.every(Boolean) ? ' ready' : '');
+  $('misPips').innerHTML = m.got.map(g => '<i class="' + (g ? 'on' : '') + '"></i>').join('');
+  $('misChestRew').innerHTML = rewardChips(MIS_CHEST);
+}
+$('misBtn').onclick = () => { flushMis(); renderMis(); $('mis').hidden = false; };
+$('misClose').onclick = () => { $('mis').hidden = true; updateHomeUI(); };
+$('misList').onclick = e => {
+  const b = e.target.closest('.mbtn'); if (!b) return;
+  const m = misToday(), i = +b.dataset.i, d = misDef(m.ids[i]);
+  if (m.got[i] || m.p[i] < d.n) return;
+  const give = x => { m.got[i] = 1; store.set('mis', m); const r = {}; for (const k in d.r) r[k] = d.r[k] * x; giveItems(r); track('mission_claim', { id: d.id, x2: x > 1 ? 1 : 0 }); fanfare(); renderMis(); };
+  if (b.dataset.x === '2') showAd(() => give(2)); else give(1);
+};
+$('misChest').onclick = () => {
+  const m = misToday(); if (m.chest || !m.got.every(Boolean)) return;
+  m.chest = 1; store.set('mis', m); giveItems(MIS_CHEST); track('mission_chest', {});
+  [523, 659, 784, 1046, 1319].forEach((f, i) => setTimeout(() => beep(f, f, .2, 'triangle', .09), i * 100)); buzz(40);
+  renderMis();
+};
+
+// ---------- gift box: one free a day, two more with ads; coins or an item ----------
+const GIFT_FREE = 1, GIFT_AD = 2;
+const GIFTS = [{ c: 50, w: 30 }, { c: 100, w: 25 }, { c: 150, w: 12 }, { c: 300, w: 3 }, { shield: 1, w: 15 }, { boots: 1, w: 15 }];
+let gift = store.get('gift', { day: '', n: 0 });
+function giftToday(){ if (gift.day !== today()) gift = { day: today(), n: 0 }; return gift; }
+function renderGift(){
+  const g = giftToday(), left = GIFT_FREE + GIFT_AD - g.n;
+  $('giftPips').innerHTML = Array.from({ length: GIFT_FREE + GIFT_AD }, (_, i) => '<i class="' + (i < g.n ? 'used' : '') + '"></i>').join('');
+  $('giftGo').disabled = left <= 0;
+  $('giftGo').classList.toggle('ad', g.n >= GIFT_FREE && left > 0);   // the free one is used: the next ones are rewarded ads
+}
+function openGift(by){
+  const g = giftToday(); let r = Math.random() * 100, i = 0;
+  while (i < GIFTS.length - 1 && r > GIFTS[i].w){ r -= GIFTS[i].w; i++; }
+  g.n++; store.set('gift', g);
+  const rw = Object.assign({}, GIFTS[i]); delete rw.w;
+  track('gift_open', { by });
+  const box = $('giftBox'); box.classList.remove('shake', 'open'); void box.offsetWidth; box.classList.add('shake');
+  $('giftGo').disabled = true; $('giftRes').innerHTML = '';
+  setTimeout(() => { box.classList.add('open'); giveItems(rw); $('giftRes').innerHTML = rewardChips(rw); fanfare(); buzz(30); renderGift(); }, 700);
+}
+$('giftBtn').onclick = () => { $('giftRes').innerHTML = ''; $('giftBox').classList.remove('shake', 'open'); renderGift(); $('gift').hidden = false; };
+$('giftClose').onclick = () => { $('gift').hidden = true; updateHomeUI(); };
+$('giftGo').onclick = () => {
+  const g = giftToday(); if (g.n >= GIFT_FREE + GIFT_AD) return;
+  if (g.n < GIFT_FREE) openGift('free'); else showAd(() => openGift('ad'));
+};
+
+// ---------- today's mountain: first clear of the day pays coins and one of each item ----------
+const DAILY_REWARD = { c: 150, shield: 1, boots: 1 };
+let daily = store.get('daily', { day: '' }), dailyRun = false;
+function dayLabel(){ const d = new Date(); return (d.getMonth() + 1) + '/' + d.getDate(); }
+function renderDay(){
+  const done = daily.day === today();
+  $('dayDate').textContent = dayLabel();
+  $('dayRew').innerHTML = rewardChips(DAILY_REWARD) + (done ? '<span class="mtick">' + icon('check') + '</span>' : '');
+  $('dayRew').classList.toggle('done', done);
+}
+$('dailyBtn').onclick = () => { renderDay(); $('day').hidden = false; };
+$('dayClose').onclick = () => { $('day').hidden = true; updateHomeUI(); };
+$('dayGo').onclick = () => { $('day').hidden = true; dailyRun = true; playAt = null; startLevel(); };
+
 newRun(store.get('save', null));
 dressAll(skin); setSoundIcon(); renderSet(); goHome();
 requestAnimationFrame(frame);
 
 // test hook for automated checks
-window.__cs = { get me(){ return me; }, get prog(){ return prog; }, set prog(v){ prog = v; store.set('prog', v); }, goHome, get climb(){ return climb; }, setCheck(c){ check = c; }, get gt(){ return gt; }, solid, slideX, blinkU, get cones(){ return cones; }, platAt, byRow: () => byRow, press, win, gameOver, get falls(){ return falls; }, get state(){ return state; }, set state(v){ state = v; } };
+window.__cs = { get me(){ return me; }, get prog(){ return prog; }, set prog(v){ prog = v; store.set('prog', v); }, goHome, get climb(){ return climb; }, setCheck(c){ check = c; }, get gt(){ return gt; }, solid, slideX, blinkU, get cones(){ return cones; }, platAt, byRow: () => byRow, press, win, gameOver, get falls(){ return falls; }, get state(){ return state; }, set state(v){ state = v; },
+  get act(){ return act; }, get inv(){ return inv; }, useItem, get birds(){ return birds; }, thornU, get def(){ return def; }, misToday, mis, giftToday, get daily(){ return daily; }, set dailyRun(v){ dailyRun = v; } };
 })();
 </script>
 </body>
