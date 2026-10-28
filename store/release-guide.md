@@ -176,7 +176,7 @@ stairs,climb,mountain,hop,jump,one tap,casual,3d,arcade,dodge,fall,patience,spro
 
 ## 1. 앱 개인정보 (App Store Connect > 앱 개인정보 > 시작하기)
 
-광고(Google AdMob)와 이용 통계(Firebase Analytics) 때문에 "데이터를 수집함"으로 답해요. 개발자 서버는 없어요.
+광고(Google AdMob), 이용 통계(Firebase Analytics), 오류 보고(Firebase Crashlytics) 때문에 "데이터를 수집함"으로 답해요. 개발자 서버는 없어요.
 
 **데이터를 수집합니까?** → 예
 
@@ -188,7 +188,8 @@ stairs,climb,mountain,hop,jump,one tap,casual,3d,arcade,dodge,fall,patience,spro
 | 식별자 > 기기 ID | 타사 광고, 분석 | 아니요 | 예 |
 | 사용 데이터 > 제품 상호 작용 | 타사 광고, 분석 | 아니요 | 예 |
 | 사용 데이터 > 광고 데이터 | 타사 광고, 분석 | 아니요 | 예 |
-| 진단 > 충돌 데이터, 성능 데이터 | 분석 | 아니요 | 아니요 |
+| 진단 > 충돌 데이터 | 분석, 앱 기능 (1.0.1부터 Crashlytics) | 아니요 | 아니요 |
+| 진단 > 성능 데이터, 기타 진단 데이터 | 분석 | 아니요 | 아니요 |
 | 구입 항목 > 구입 내역 | 분석 (Firebase가 구매를 자동 기록) | 아니요 | 아니요 |
 
 - 연락처, 이름, 이메일은 체크하지 않아요. 결제 정보는 Apple이 처리해요.
