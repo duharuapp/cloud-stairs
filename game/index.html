@@ -1904,6 +1904,11 @@ function closeShop(){
   $('shop').hidden = true;
   if (state === 'over') setReviveCoin(); else updateHomeUI();
 }
+// small screens (iPhone SE, iPhone apps on iPad): shrink a window that is taller than the screen so its buttons stay reachable
+function fitPop(p){ const h = p.offsetHeight; if (!h) return; const s = Math.min(1, (innerHeight - 64) / h); p.style.scale = s < 1 ? String(s) : ''; }
+const popFit = new ResizeObserver(es => es.forEach(e => fitPop(e.target)));
+document.querySelectorAll('.layer .pop').forEach(p => popFit.observe(p));
+addEventListener('resize', () => document.querySelectorAll('.layer:not([hidden]) .pop').forEach(fitPop));
 $('shopBtn').onclick = openShop;
 $('oCoinPlus').onclick = openShop;
 $('coinPlus').onclick = openShop;
