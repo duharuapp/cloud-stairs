@@ -1905,7 +1905,9 @@ function closeShop(){
   if (state === 'over') setReviveCoin(); else updateHomeUI();
 }
 // small screens (iPhone SE, iPhone apps on iPad): shrink a window that is taller than the screen so its buttons stay reachable
-function fitPop(p){ const h = p.offsetHeight; if (!h) return; const s = Math.min(1, (innerHeight - 64) / h); p.style.scale = s < 1 ? String(s) : ''; }
+const safeProbe = document.createElement('div'); safeProbe.style.cssText = 'position:fixed;visibility:hidden;pointer-events:none;top:0;height:0;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)'; document.body.appendChild(safeProbe);
+// keep the window (and its X, which sits 18px above it) clear of the status bar and home indicator
+function fitPop(p){ const h = p.offsetHeight; if (!h) return; const cs = getComputedStyle(safeProbe), safe = 2 * Math.max(parseFloat(cs.paddingTop) || 0, parseFloat(cs.paddingBottom) || 0); const s = Math.min(1, (innerHeight - 64 - safe) / h); p.style.scale = s < 1 ? String(s) : ''; }
 const popFit = new ResizeObserver(es => es.forEach(e => fitPop(e.target)));
 document.querySelectorAll('.layer .pop').forEach(p => popFit.observe(p));
 addEventListener('resize', () => document.querySelectorAll('.layer:not([hidden]) .pop').forEach(fitPop));
