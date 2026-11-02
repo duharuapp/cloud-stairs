@@ -194,6 +194,9 @@ body.at-home .hud,body.at-home .pad,body.at-home .prog,body.at-home #floats{disp
 .noadsBtn svg{width:58px;height:58px}
 .noadsBtn .price{background:#47c16a;color:#fff;border-radius:999px;padding:3px 12px;font-size:17px;box-shadow:0 3px 0 #2f9a4f}
 .noadsBtn.owned{opacity:.5;pointer-events:none}
+.restoreBtn{display:flex;align-items:center;justify-content:center;gap:6px;align-self:center;border:0;background:none;color:#5b6478;font-family:var(--font);font-size:18px;padding:4px 12px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.restoreBtn svg{width:28px;height:28px}
+.restoreBtn:active{transform:translateY(2px)}
 .noadsBtn.owned .price{background:#aab3c5;box-shadow:none}
 .pop.intro{padding:20px 22px}
 .introPics{display:flex;flex-direction:column;gap:10px}
@@ -473,6 +476,7 @@ body.at-home .items{display:none}
     <button class="noadsBtn" id="noadsBtn" aria-label="remove ads"><i data-ic="noads"></i><span class="price" id="noadsPrice">₩3,900</span></button>
     <div class="sitems" id="sitems"></div>
     <div class="packs" id="packs"></div>
+    <button class="restoreBtn" id="shopRestore"><i data-ic="cloudDown"></i><span class="rsLbl">Restore Purchases</span></button>
   </div>
 </div>
 
@@ -480,7 +484,7 @@ body.at-home .items{display:none}
   <button class="round tiny closeX" id="setClose" aria-label="close"><i data-ic="close"></i></button>
   <div class="pop set">
     <div class="btns"><button class="round small tog" id="snd" aria-label="sound effects"><i data-ic="sound"></i></button><button class="round small tog" id="mus" aria-label="music"><i data-ic="music"></i></button><button class="round small tog" id="vib" aria-label="vibration"><i data-ic="vibe"></i></button></div>
-    <button class="round small" id="restoreBuy" aria-label="restore purchases" hidden><i data-ic="cloudDown"></i></button>
+    <button class="restoreBtn" id="restoreBuy" hidden><i data-ic="cloudDown"></i><span class="rsLbl">Restore Purchases</span></button>
     <div class="acct" id="acctOut">
       <button class="login apple" id="loginApple"><i data-ic="apple"></i>Apple</button>
       <button class="login google" id="loginGoogle"><i data-ic="google"></i>Google</button>
@@ -1953,7 +1957,16 @@ $('loginGoogle').onclick = () => login('google');
 $('logout').onclick = () => { acct = null; store.set('acct', null); renderSet(); };
 // app only: the remove-ads purchase comes back from the store (coins are used up, so only remove-ads can return)
 if (NATIVE) $('restoreBuy').hidden = false;
-$('restoreBuy').onclick = () => { $('busy').hidden = false; NATIVE.call('restore', {}).then(r => { $('busy').hidden = true; if (r.noads) ownNoAds(); else beep(300, 200, .12, 'square', .05); }); };
+// App Review wants a "Restore Purchases" button people can find, so this one is a word, not an icon (in the shop and in settings)
+const RESTORE_LABEL = { ko: '구매 복원', ja: '購入を復元' }[(navigator.language || 'en').slice(0, 2)] || 'Restore Purchases';
+document.querySelectorAll('.rsLbl').forEach(e => { e.textContent = RESTORE_LABEL; });
+function restoreBuys(){
+  if (!NATIVE){ beep(300, 200, .12, 'square', .05); return; }   // browser: nothing bought from a store here
+  $('busy').hidden = false;
+  NATIVE.call('restore', {}).then(r => { $('busy').hidden = true; if (r.noads){ ownNoAds(); if (!$('shop').hidden) renderShop(); } else beep(300, 200, .12, 'square', .05); });
+}
+$('restoreBuy').onclick = restoreBuys;
+$('shopRestore').onclick = restoreBuys;
 $('bkUp').onclick = () => busy(700, () => { backupNow(); renderSet(); fanfare(); });
 $('bkDown').onclick = () => { const b = store.get('cloud-' + acct.p, null); if (b) openRestore(b); };
 $('restNo').onclick = () => { $('rest').hidden = true; };

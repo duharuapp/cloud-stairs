@@ -101,7 +101,7 @@ function Game({ initial }: { initial: Save }) {
       case 'restore':
         try {
           const noads = await store.restore();
-          if (!noads) Alert.alert('', t.restoreNone);
+          Alert.alert('', noads ? t.restoreDone : t.restoreNone);
           reply(m.id, { noads });
         } catch {
           Alert.alert('', t.restoreFailed);
